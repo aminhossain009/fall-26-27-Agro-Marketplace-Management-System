@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Agro Mart</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+  <!-- Header -->
+  <div>
+    <div>
+      <a href="../index.html"><i class="fa-solid fa-leaf"></i> Agro Mart</a>
+      <div>
+        <a href="admin-dashboard.html"><i class="fa-solid fa-table-cells-large"></i> Dashboard</a>
+        <a href="../Farmer/product-list.html"><i class="fa-solid fa-box"></i> Products</a>
+        <a href="../Admin/profile.html"><i class="fa-solid fa-user"></i> Profile</a>
+        <a href="./auth/login.html"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h1>Admin Dashboard</h1>
+    <p>Welcome, Abdul Karim</p>
+
+    <div>
+      <div>
+        <div>120</div>
+        <div>Total Users</div>
+      </div>
+      <div>
+        <div>5</div>
+        <div>Pending Approvals</div>
+      </div>
+      <div>
+        <div>20</div>
+        <div>Today's Orders</div>
+      </div>
+    </div>
+
+    <!-- Feature 1: User Approval / Ban -->
+    <div id="user-approval">
+      <h2>1. User Approval / Ban</h2>
+      <div>
+        <table border="1">
+          <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>Anwar Hossain</td>
+            <td>Farmer</td>
+            <td><span>Pending</span></td>
+            <td><a href="#">Approve</a> <a href="#">Reject</a></td>
+          </tr>
+          <tr>
+            <td>Rafiqul Islam</td>
+            <td>Farmer</td>
+            <td><span>Active</span></td>
+            <td><a href="#">Ban</a></td>
+          </tr>
+          <tr>
+            <td>Farhana Yasmin</td>
+            <td>Customer</td>
+            <td><span>Banned</span></td>
+            <td><a href="#">Unban</a></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Feature 2: Market Rate -->
+    <div id="market-rate">
+      <h2>2. Today's Market Prices</h2>
+      <div>
+        <table border="1">
+          <tr>
+            <th>Product</th>
+            <th>Minimum</th>
+            <th>Maximum</th>
+          </tr>
+          <tr>
+            <td>Potatoes (kg)</td>
+            <td>BDT 40</td>
+            <td>BDT 48</td>
+          </tr>
+          <tr>
+            <td>Onions (kg)</td>
+            <td>BDT 75</td>
+            <td>BDT 85</td>
+          </tr>
+          <tr>
+            <td>Miniket Rice (kg)</td>
+            <td>BDT 68</td>
+            <td>BDT 76</td>
+          </tr>
+        </table>
+      </div>
+
+      <form action="#">
+        <label for="rate-product">Set a New Price - Product</label>
+        <select id="rate-product">
+          <option>Potatoes</option>
+          <option>Onions</option>
+          <option>Miniket Rice</option>
+        </select>
+        <label for="rate-min">Minimum Price</label>
+        <input type="number" id="rate-min">
+        <label for="rate-max">Maximum Price</label>
+        <input type="number" id="rate-max">
+        <button type="submit">Save Prices</button>
+      </form>
+    </div>
+
+    <!-- Feature 3: Sales Report -->
+    <div id="sales-report">
+      <h2>3. Sales Report</h2>
+      <div>
+        <table border="1">
+          <tr>
+            <th>Month</th>
+            <th>Total Orders</th>
+            <th>Total Sales</th>
+          </tr>
+          <tr>
+            <td>August</td>
+            <td>280</td>
+            <td>BDT 280,000</td>
+          </tr>
+          <tr>
+            <td>September</td>
+            <td>320</td>
+            <td>BDT 320,000</td>
+          </tr>
+          <tr>
+            <td>October</td>
+            <td>360</td>
+            <td>BDT 360,000</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <p>&copy; 2026 Agro Mart | Bangladesh</p>
+  </div>
+
+</body>
+
+</html>

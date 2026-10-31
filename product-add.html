@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Product - Agro Mart</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+  <!-- Header -->
+  <div>
+    <div>
+      <a href="index.html"><i class="fa-solid fa-leaf"></i> Agro Mart</a>
+      <div>
+        <a href="farmer-dashboard.html"><i class="fa-solid fa-table-cells-large"></i> Dashboard</a>
+        <a href="product-list.html"><i class="fa-solid fa-box"></i> Products</a>
+        <a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a>
+        <a href="login.html"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h1>New Product</h1>
+    <p>Add a new product for sale</p>
+
+    <div>
+      <form id="product-form" action="product-list.html">
+        <label for="p-name">Product Name</label>
+        <input type="text" id="p-name" placeholder="e.g. Bogura Potatoes">
+
+        <label for="p-category">Category</label>
+        <select id="p-category">
+          <option>Vegetables</option>
+          <option>Fruit</option>
+          <option>Rice and Pulses</option>
+          <option>Eggs and Dairy</option>
+          <option>Spices</option>
+        </select>
+
+        <label for="p-price">Price (BDT)</label>
+        <input type="number" id="p-price" placeholder="45">
+
+        <label for="p-unit">Unit</label>
+        <select id="p-unit">
+          <option>kg</option>
+          <option>liter</option>
+          <option>4 pieces</option>
+          <option>piece</option>
+        </select>
+
+        <label for="p-stock">Stock Quantity</label>
+        <input type="number" id="p-stock" placeholder="100">
+
+        <label for="p-desc">Description</label>
+        <textarea id="p-desc" rows="3" placeholder="Describe the product"></textarea>
+
+        <button type="submit">Add Product</button>
+        <a href="product-list.html">Cancel</a>
+      </form>
+    </div>
+  </div>
+
+  <div>
+    <p>&copy; 2026 Agro Mart | Bangladesh</p>
+  </div>
+
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Edit - Agro Mart</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+  <!-- Header -->
+  <div>
+    <div>
+      <a href="index.html"><i class="fa-solid fa-leaf"></i> Agro Mart</a>
+      <div>
+        <a href="farmer-dashboard.html"><i class="fa-solid fa-table-cells-large"></i> Dashboard</a>
+        <a href="product-list.html"><i class="fa-solid fa-box"></i> Products</a>
+        <a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a>
+        <a href="login.html"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h1>Product Edit (Update)</h1>
+    <p>Edit the details and save your changes</p>
+
+    <div>
+      <form id="edit-form" action="product-list.html">
+        <label for="e-name">Product Name</label>
+        <input type="text" id="e-name" placeholder="Product name">
+
+        <label for="e-category">Category</label>
+        <select id="e-category">
+          <option value="" disabled selected>Select a category</option>
+          <option>Vegetables</option>
+          <option>Fruit</option>
+          <option>Rice and Pulses</option>
+          <option>Eggs and Dairy</option>
+          <option>Spices</option>
+        </select>
+
+        <label for="e-price">Price (BDT)</label>
+        <input type="number" id="e-price" placeholder="Price in BDT">
+
+        <label for="e-stock">Stock Quantity</label>
+        <input type="number" id="e-stock" placeholder="Stock quantity">
+
+        <label for="e-desc">Description</label>
+        <textarea id="e-desc" rows="3" placeholder="Describe the product"></textarea>
+
+        <button type="submit">Save Changes</button>
+        <a href="product-list.html">Cancel</a>
+      </form>
+    </div>
+  </div>
+
+  <div>
+    <p>&copy; 2026 Agro Mart | Bangladesh</p>
+  </div>
+
+</body>
+
+</html>

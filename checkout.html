@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - Agro Mart</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+  <div>
+    <div>
+      <a href="index.html"><i class="fa-solid fa-leaf"></i> Agro Mart</a>
+      <div>
+        <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="products.html"><i class="fa-solid fa-box"></i> Products</a>
+        <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
+        <a href="login.html"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+        <a href="register.html"><i class="fa-solid fa-user-plus"></i> Register</a>
+      </div>
+    </div>
+  </div>
+  <div>
+    <h1>Checkout</h1>
+    <p>Confirm your order and delivery details.</p>
+    <div>
+      <h2>Order Summary</h2>
+      <table border="1">
+        <tr><th>Product</th><th>Qty</th><th>Total</th></tr>
+        <tr><td>Bogura Potatoes</td><td>2 kg</td><td>BDT 90</td></tr>
+        <tr><td>Miniket Rice</td><td>5 kg</td><td>BDT 360</td></tr>
+      </table>
+      <p><b>Grand Total: BDT 450</b> (Free delivery)</p>
+    </div>
+    <div>
+      <h2>Delivery and Payment</h2>
+      <form action="order-success.html">
+        <label for="address">Delivery Address</label>
+        <textarea id="address" rows="2" placeholder="House, road, area" required></textarea>
+        <label for="payment">Payment Method</label>
+        <select id="payment">
+          <option>bKash</option>
+          <option>Nagad</option>
+          <option>Cash on Delivery</option>
+        </select>
+        <button type="submit">Place Order</button>
+        <a href="cart.html">Back to Cart</a>
+      </form>
+    </div>
+  </div>
+  <div>
+    <p>&copy; 2026 Agro Mart | Bangladesh</p>
+  </div>
+</body>
+</html>

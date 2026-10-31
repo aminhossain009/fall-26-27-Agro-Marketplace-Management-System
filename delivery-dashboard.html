@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delivery Dashboard - Agro Mart</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+  <!-- Header -->
+  <div>
+    <div>
+      <a href="index.html"><i class="fa-solid fa-leaf"></i> Agro Mart</a>
+      <div>
+        <a href="delivery-dashboard.html"><i class="fa-solid fa-table-cells-large"></i> Dashboard</a>
+        <a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a>
+        <a href="login.html"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h1>Delivery Dashboard</h1>
+    <p>Welcome, Zahid Hasan (Dhaka area)</p>
+
+    <div>
+      <div>
+        <div>8</div>
+        <div>Today's Orders</div>
+      </div>
+      <div>
+        <div>3</div>
+        <div>Remaining</div>
+      </div>
+      <div>
+        <div>BDT 400</div>
+        <div>Today's Earnings</div>
+      </div>
+    </div>
+
+    <!-- Feature 1: Assigned Orders -->
+    <div id="assigned-orders">
+      <h2>1. Assigned Orders (By Area)</h2>
+      <div>
+        <table border="1">
+          <tr>
+            <th>Order</th>
+            <th>Area</th>
+            <th>Phone</th>
+            <th>Amount</th>
+            <th>Status</th>
+          </tr>
+          <tr>
+            <td>#AM-10244</td>
+            <td>Mirpur 10</td>
+            <td>01511-000005</td>
+            <td>COD BDT 1,240</td>
+            <td><span>Packed</span></td>
+          </tr>
+          <tr>
+            <td>#AM-10245</td>
+            <td>Mirpur 12</td>
+            <td>01611-000004</td>
+            <td>bKash (Paid)</td>
+            <td><span>On the way</span></td>
+          </tr>
+          <tr>
+            <td>#AM-10246</td>
+            <td>Uttara</td>
+            <td>01811-000009</td>
+            <td>COD BDT 760</td>
+            <td><span>Packed</span></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Feature 2: Status Update -->
+    <div id="status-update">
+      <h2>2. Delivery Status Update</h2>
+      <form action="#">
+        <label for="order-no">Order Number</label>
+        <select id="order-no">
+          <option>#AM-10244</option>
+          <option>#AM-10245</option>
+          <option>#AM-10246</option>
+        </select>
+        <label for="new-status">New Status</label>
+        <select id="new-status">
+          <option>Picked</option>
+          <option>On the way</option>
+          <option>Delivered</option>
+        </select>
+        <button type="submit">Save Status</button>
+      </form>
+    </div>
+
+    <!-- Feature 3: Delivery Earnings -->
+    <div id="delivery-earnings">
+      <h2>3. Delivery Earnings</h2>
+      <div>
+        <table border="1">
+          <tr>
+            <th>Date</th>
+            <th>Deliveries</th>
+            <th>Earnings</th>
+          </tr>
+          <tr>
+            <td>October 28</td>
+            <td>6</td>
+            <td>BDT 380</td>
+          </tr>
+          <tr>
+            <td>October 29</td>
+            <td>7</td>
+            <td>BDT 450</td>
+          </tr>
+          <tr>
+            <td>October 30 (Today)</td>
+            <td>5</td>
+            <td>BDT 400</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <p>&copy; 2026 Agro Mart | Bangladesh</p>
+  </div>
+
+</body>
+
+</html>

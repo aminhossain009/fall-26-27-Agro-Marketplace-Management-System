@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agro Mart - Register</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+  <!-- Header -->
+  <div>
+    <div>
+      <a href="index.html"><i class="fa-solid fa-leaf"></i> Agro Mart</a>
+      <div>
+        <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="products.html"><i class="fa-solid fa-box"></i> Products</a>
+        <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
+        <a href="login.html"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+        <a href="register.html"><i class="fa-solid fa-user-plus"></i> Register</a>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div>
+      <h2>Create an Account</h2>
+
+      <form id="register-form" action="login.html">
+        <label for="name">Name</label>
+        <input type="text" id="name" placeholder="Your name">
+
+        <label for="mobile">Mobile Number</label>
+        <input type="text" id="mobile" placeholder="01XXXXXXXXX">
+
+        <label for="role">I am a</label>
+        <select id="role">
+          <option>Customer</option>
+          <option>Farmer</option>
+          <option>Delivery Man</option>
+        </select>
+
+        <label for="district">District</label>
+        <select id="district">
+          <option>Dhaka</option>
+          <option>Bogura</option>
+          <option>Rajshahi</option>
+          <option>Dinajpur</option>
+          <option>Khulna</option>
+          <option>Chattogram</option>
+        </select>
+
+        <label for="pass">Password</label>
+        <input type="password" id="pass" placeholder="Password">
+
+        <button type="submit">Register</button>
+      </form>
+
+      <p>Already have an account? <a href="login.html">Login</a></p>
+    </div>
+  </div>
+
+</body>
+
+</html>

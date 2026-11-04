@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<!-- Agro Mart 6.0: HTML with a small CSS file, no JavaScript. -->
+<html lang="en-US"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Delivery dashboard of Agro Mart">
+  <title>Delivery Dashboard | Agro Mart</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ================= HEADER ================= -->
+  <header class="header">
+    <a href="index.html" class="logo">Agro<span>Mart</span></a>
+    <div class="user-info">
+      <span class="badge delivery">Delivery</span>
+      <span>Welcome, Zahid Hasan (Dhaka area)</span>
+      <a href="profile.html" class="btn btn-small btn-light">Profile</a>
+      <a href="index.html" class="btn btn-small btn-light">Logout</a>
+    </div>
+  </header>
+
+  <!-- ================= NAVBAR ================= -->
+  <nav class="topnav">
+    <a href="#tripSection">Trip Log</a>
+    <a href="#assignedSection">Assigned Orders</a>
+    <a href="#statusSection">Status Update</a>
+    <a href="#earningsSection">Earnings</a>
+    <a href="#catalogSection">Browse Products</a>
+  </nav>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main class="container">
+
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-number" id="statAssigned">5</div><div class="stat-label">Assigned orders</div></div>
+      <div class="stat-card"><div class="stat-number" id="statRemaining">4</div><div class="stat-label">Remaining</div></div>
+      <div class="stat-card"><div class="stat-number" id="statToday">Tk 0</div><div class="stat-label">Today's earnings</div></div>
+      <div class="stat-card"><div class="stat-number" id="statTrips">3</div><div class="stat-label">Trips logged</div></div>
+    </div>
+
+
+    <!-- ================= TRIP LOG (CRUD + SEARCH) ================= -->
+    <section id="tripSection" class="page-section">
+      <h2 class="page-title">Trip Log</h2>
+      <p class="page-subtitle">Add, edit, delete and search your delivery trips.</p>
+
+      <div id="tripMessage" class="message"></div>
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <h3 id="tripFormTitle">Add New Trip</h3>
+            <form id="tripForm">
+              <fieldset>
+                <legend>Trip Details</legend>
+                <table class="form-table">
+                  <tbody><tr>
+                    <td><label for="tripDate">Date:</label></td>
+                    <td>
+                      <input type="date" id="tripDate">
+                      <span class="error" id="tripDateError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="tripArea">Area:</label></td>
+                    <td>
+                      <input type="text" id="tripArea" placeholder="e.g. Mirpur">
+                      <span class="error" id="tripAreaError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Vehicle:</td>
+                    <td>
+                      <input type="radio" id="vehicleBike" name="tripVehicle" value="Motorbike" checked="">
+                      <label for="vehicleBike" class="option-label">Motorbike</label>
+                      <input type="radio" id="vehicleCycle" name="tripVehicle" value="Bicycle">
+                      <label for="vehicleCycle" class="option-label">Bicycle</label>
+                      <input type="radio" id="vehicleVan" name="tripVehicle" value="Van">
+                      <label for="vehicleVan" class="option-label">Van</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="tripDistance">Distance (km):</label></td>
+                    <td>
+                      <input type="number" id="tripDistance" min="1">
+                      <span class="error" id="tripDistanceError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="tripFuel">Fuel cost (Tk):</label></td>
+                    <td>
+                      <input type="number" id="tripFuel" min="0">
+                      <span class="error" id="tripFuelError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="tripNote">Note:</label></td>
+                    <td><textarea id="tripNote" rows="2" placeholder="Anything to remember"></textarea></td>
+                  </tr>
+                </tbody></table>
+              </fieldset>
+              <input type="submit" id="tripSaveButton" class="btn" value="Add Trip">
+              <button type="button" class="btn btn-secondary">Cancel</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-wide">
+          <div class="card">
+            <h3>My Trips</h3>
+            <div class="search-bar">
+              <input type="text" id="tripSearch" placeholder="Search by area, note, date or id...">
+              <select id="tripVehicleFilter">
+                <option value="All">All vehicles</option>
+                <option>Motorbike</option>
+                <option>Bicycle</option>
+                <option>Van</option>
+              </select>
+            </div>
+            <p class="result-count" id="tripCount">3 trip(s), 77 km, Tk 620 fuel</p>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr><th>ID</th><th>Date</th><th>Area</th><th>Vehicle</th><th>Distance</th><th>Fuel</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="tripBody"><tr><td>T-001</td><td>2026-10-30</td><td><strong>Mirpur</strong><br><span class="hint">Heavy traffic near Mirpur 10.</span></td><td>Motorbike</td><td>24 km</td><td>Tk 180</td><td><button type="button" class="btn btn-small">Edit</button><button type="button" class="btn btn-small btn-danger">Delete</button></td></tr><tr><td>T-002</td><td>2026-10-31</td><td><strong>Uttara</strong><br><span class="hint">Two customers were not at home.</span></td><td>Motorbike</td><td>38 km</td><td>Tk 290</td><td><button type="button" class="btn btn-small">Edit</button><button type="button" class="btn btn-small btn-danger">Delete</button></td></tr><tr><td>T-003</td><td>2026-11-01</td><td><strong>Dhanmondi</strong><br><span class="hint">Bulk rice delivery.</span></td><td>Van</td><td>15 km</td><td>Tk 150</td><td><button type="button" class="btn btn-small">Edit</button><button type="button" class="btn btn-small btn-danger">Delete</button></td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================= UNIQUE FEATURE 1: ASSIGNED ORDERS (BY AREA) ================= -->
+    <section id="assignedSection" class="page-section">
+      <h2 class="page-title">Assigned Orders</h2>
+      <p class="page-subtitle">Your orders by area, and the cash you need to collect.</p>
+
+      <div class="card">
+        <div class="search-bar">
+          <select id="assignedArea">
+            <option value="All">All areas</option>
+          <option value="Mirpur 12">Mirpur 12</option><option value="Mirpur 10">Mirpur 10</option><option value="Uttara">Uttara</option></select>
+          <span>
+            <input type="checkbox" id="assignedShowDone">
+            <label for="assignedShowDone" class="option-label">Show delivered orders</label>
+          </span>
+        </div>
+        <p class="result-count" id="assignedCount">4 order(s), Tk 2,270 cash to collect</p>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr><th>Order</th><th>Area</th><th>Customer</th><th>Amount</th><th>Status</th></tr>
+            </thead>
+            <tbody id="assignedBody"><tr><td>#AM-10244</td><td><strong>Mirpur 10</strong><br><span class="hint">Block C, Mirpur 10</span></td><td>Nasrin Sultana<br><span class="hint">01511000005</span></td><td>COD Tk 1,240</td><td><span class="badge orange">Packed</span></td></tr><tr><td>#AM-10245</td><td><strong>Mirpur 12</strong><br><span class="hint">House 12, Road 5, Mirpur 12</span></td><td>Sumaiya Akter<br><span class="hint">01611000004</span></td><td>bKash (Paid)</td><td><span class="badge blue">On the way</span></td></tr><tr><td>#AM-10246</td><td><strong>Uttara</strong><br><span class="hint">Sector 7, Uttara</span></td><td>Nasrin Sultana<br><span class="hint">01511000005</span></td><td>COD Tk 760</td><td><span class="badge orange">Packed</span></td></tr><tr><td>#AM-10247</td><td><strong>Mirpur 12</strong><br><span class="hint">House 12, Road 5, Mirpur 12</span></td><td>Sumaiya Akter<br><span class="hint">01611000004</span></td><td>COD Tk 270</td><td><span class="badge grey">Placed</span></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================= UNIQUE FEATURE 2: DELIVERY STATUS UPDATE ================= -->
+    <section id="statusSection" class="page-section">
+      <h2 class="page-title">Delivery Status Update</h2>
+      <p class="page-subtitle">Move an order to its next step.</p>
+
+      <div id="statusMessage" class="message"></div>
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <h3>Update an order</h3>
+            <form>
+              <fieldset>
+                <legend>Order</legend>
+                <table class="form-table">
+                  <tbody><tr>
+                    <td><label for="statusOrder">Order Number:</label></td>
+                    <td><select id="statusOrder"><option value="">-- Select order --</option><option value="AM-10244">#AM-10244 - Mirpur 10 (Packed)</option><option value="AM-10245">#AM-10245 - Mirpur 12 (On the way)</option><option value="AM-10246">#AM-10246 - Uttara (Packed)</option><option value="AM-10247">#AM-10247 - Mirpur 12 (Placed)</option></select></td>
+                  </tr>
+                  <tr>
+                    <td>Next Status:</td>
+                    <td id="statusNext">Choose an order first.</td>
+                  </tr>
+                </tbody></table>
+              </fieldset>
+              <input type="submit" id="statusButton" class="btn" value="Save Status">
+            </form>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <h3>Recent updates</h3>
+            <div class="notice-board" id="statusBoard"><div class="log-item"><span class="log-time">2026-11-01 15:10</span><br>#AM-10245 → <span class="badge blue">On the way</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================= UNIQUE FEATURE 3: DELIVERY EARNINGS ================= -->
+    <section id="earningsSection" class="page-section">
+      <h2 class="page-title">Delivery Earnings</h2>
+      <p class="page-subtitle">You earn Tk 80 for each delivery.</p>
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <h3>By day</h3>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Date</th><th>Deliveries</th><th>Earnings</th></tr>
+                </thead>
+                <tbody id="earningsBody"><tr><td>2026-10-30</td><td>6</td><td>Tk 480</td></tr><tr><td>2026-10-31</td><td>7</td><td>Tk 560</td></tr><tr><td>2026-11-01</td><td>5</td><td>Tk 400</td></tr><tr><td><strong>Today</strong></td><td>0</td><td>Tk 0</td></tr></tbody>
+              </table>
+            </div>
+            <div class="result-box">
+              <p>Total earned</p>
+              <p class="big" id="earningsTotal">Tk 1,440</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <h3>Earnings (Tk)</h3>
+            <div id="earningsChart"><div class="bar-row"><div class="bar-label">10-30</div><div class="bar-track"><div class="bar-fill"></div></div><div class="bar-value">480</div></div><div class="bar-row"><div class="bar-label">10-31</div><div class="bar-track"><div class="bar-fill"></div></div><div class="bar-value">560</div></div><div class="bar-row"><div class="bar-label">11-01</div><div class="bar-track"><div class="bar-fill"></div></div><div class="bar-value">400</div></div><div class="bar-row"><div class="bar-label">Today</div><div class="bar-track"><div class="bar-fill"></div></div><div class="bar-value">0</div></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SEARCH ALL PRODUCTS (READ ONLY) ================= -->
+    <section id="catalogSection" class="page-section">
+      <h2 class="page-title">Browse Products</h2>
+      <p class="page-subtitle">Answer customers' questions about price and stock.</p>
+
+      <div class="card">
+        <div class="search-bar">
+          <input type="text" id="catalogSearch" placeholder="Search by product, farmer or district...">
+          <select id="catalogCategory">
+            <option value="All">All categories</option>
+            <option>Vegetables</option>
+            <option>Fruit</option>
+            <option>Rice and Pulses</option>
+            <option>Eggs and Dairy</option>
+            <option>Spices</option>
+          </select>
+        </div>
+        <p class="result-count" id="catalogCount">9 product(s) found</p>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr><th>Product</th><th>Farmer</th><th>Category</th><th>Price</th><th>Stock</th></tr>
+            </thead>
+            <tbody id="catalogBody"><tr><td><div class="thumb no-image">No photo</div><strong>Bogura Potatoes</strong></td><td>Rafiqul Islam<br><span class="hint">Bogura</span></td><td>Vegetables</td><td>Tk 45 / kg</td><td><span class="badge green">In stock</span></td></tr><tr><td><img width="40" height="40" class="thumb" src="images/rice.jpg" alt="Miniket Rice"><strong>Miniket Rice</strong></td><td>Kamal Uddin<br><span class="hint">Rajshahi</span></td><td>Rice and Pulses</td><td>Tk 72 / kg</td><td><span class="badge green">In stock</span></td></tr><tr><td><img width="40" height="40" class="thumb" src="images/mango.jpeg" alt="Himsagar Mangoes"><strong>Himsagar Mangoes</strong></td><td>Kamal Uddin<br><span class="hint">Rajshahi</span></td><td>Fruit</td><td>Tk 140 / kg</td><td><span class="badge green">In stock</span></td></tr><tr><td><img width="40" height="40" class="thumb" src="images/eggs.webp" alt="Farm Eggs"><strong>Farm Eggs</strong></td><td>Kamal Uddin<br><span class="hint">Pabna</span></td><td>Eggs and Dairy</td><td>Tk 50 / 4 eggs</td><td><span class="badge green">In stock</span></td></tr><tr><td><div class="thumb no-image">No photo</div><strong>Local Onions</strong></td><td>Rafiqul Islam<br><span class="hint">Bogura</span></td><td>Vegetables</td><td>Tk 90 / kg</td><td><span class="badge green">In stock</span></td></tr><tr><td><div class="thumb no-image">No photo</div><strong>Green Chilies</strong></td><td>Rafiqul Islam<br><span class="hint">Bogura</span></td><td>Spices</td><td>Tk 120 / kg</td><td><span class="badge orange">Only 18 left</span></td></tr><tr><td><div class="thumb no-image">No photo</div><strong>Mustard Oil</strong></td><td>Kamal Uddin<br><span class="hint">Pabna</span></td><td>Spices</td><td>Tk 260 / liter</td><td><span class="badge green">In stock</span></td></tr><tr><td><div class="thumb no-image">No photo</div><strong>Cow's Milk</strong></td><td>Kamal Uddin<br><span class="hint">Pabna</span></td><td>Eggs and Dairy</td><td>Tk 90 / liter</td><td><span class="badge green">In stock</span></td></tr><tr><td><img width="40" height="40" class="thumb" src="images/tomato.webp" alt="Fresh Tomatoes"><strong>Fresh Tomatoes</strong></td><td>Rafiqul Islam<br><span class="hint">Bogura</span></td><td>Vegetables</td><td>Tk 50 / kg</td><td><span class="badge green">In stock</span></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    © 2026 Agro Mart · Bangladesh
+  </footer>
+
+  
+  
+  
+
+
+</body></html>

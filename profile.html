@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!-- Agro Mart 6.0: HTML with a small CSS file, no JavaScript. -->
+<html lang="en-US"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Your Agro Mart profile">
+  <title>My Profile | Agro Mart</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ================= HEADER ================= -->
+  <header class="header">
+    <a href="index.html" class="logo">Agro<span>Mart</span></a>
+    <div class="user-info">
+      <span class="badge customer" id="profileBadge">Customer</span>
+      <a id="dashboardLink" href="customer-dashboard.html" class="btn btn-small btn-light">Dashboard</a>
+      <a href="index.html" class="btn btn-small btn-light">Logout</a>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main class="container">
+    <div class="auth-box wide">
+      <div class="card">
+        <h2 class="page-title">My Profile</h2>
+        <p class="page-subtitle">View and edit your information.</p>
+
+        <div id="profileMessage" class="message"></div>
+
+        <form>
+          <fieldset>
+            <legend>Your details</legend>
+            <table class="form-table">
+              <tbody><tr>
+                <td><label for="profileName">Name:</label></td>
+                <td>
+                  <input type="text" id="profileName" value="Sumaiya Akter">
+                  <span class="error" id="profileNameError"></span>
+                </td>
+              </tr>
+              <tr>
+                <td><label for="profilePhone">Mobile:</label></td>
+                <td>
+                  <input type="tel" id="profilePhone" value="01611000004">
+                  <span class="error" id="profilePhoneError"></span>
+                </td>
+              </tr>
+              <tr>
+                <td><label for="profileEmail">Email:</label></td>
+                <td>
+                  <input type="email" id="profileEmail" value="sumaiya@example.com">
+                  <span class="error" id="profileEmailError"></span>
+                </td>
+              </tr>
+              <tr>
+                <td><label for="profileDistrict">District:</label></td>
+                <td>
+                  <select id="profileDistrict">
+                    <option>Dhaka</option>
+                    <option>Bogura</option>
+                    <option>Rajshahi</option>
+                    <option>Dinajpur</option>
+                    <option>Khulna</option>
+                    <option>Chattogram</option>
+                    <option>Pabna</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td><label for="profileAddress">Address:</label></td>
+                <td><textarea id="profileAddress" rows="2">House 12, Road 5, Mirpur 12</textarea></td>
+              </tr>
+            </tbody></table>
+          </fieldset>
+          <input type="submit" class="btn" value="Save Changes">
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    © 2026 Agro Mart · Bangladesh
+  </footer>
+
+  
+  
+  
+
+
+</body></html>

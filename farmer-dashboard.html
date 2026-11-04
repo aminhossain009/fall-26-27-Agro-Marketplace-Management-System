@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<!-- Agro Mart 6.0: HTML with a small CSS file, no JavaScript. -->
+<html lang="en-US"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Farmer dashboard of Agro Mart">
+  <title>Farmer Dashboard | Agro Mart</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ================= HEADER ================= -->
+  <header class="header">
+    <a href="index.html" class="logo">Agro<span>Mart</span></a>
+    <div class="user-info">
+      <span class="badge farmer">Farmer</span>
+      <span>Welcome, Rafiqul Islam (Bogura)</span>
+      <a href="profile.html" class="btn btn-small btn-light">Profile</a>
+      <a href="index.html" class="btn btn-small btn-light">Logout</a>
+    </div>
+  </header>
+
+  <!-- ================= NAVBAR ================= -->
+  <nav class="topnav">
+    <a href="#productsSection">My Products</a>
+    <a href="#cropSection">Crop Planner</a>
+    <a href="#payoutSection">Earnings &amp; Payout</a>
+    <a href="#guideSection">Price Guide</a>
+    <a href="#catalogSection">Market Products</a>
+  </nav>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main class="container">
+
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-number" id="statProducts">4</div><div class="stat-label">My products</div></div>
+      <div class="stat-card"><div class="stat-number" id="statOrders">2</div><div class="stat-label">Open orders</div></div>
+      <div class="stat-card"><div class="stat-number" id="statBalance">Tk 18,200</div><div class="stat-label">Balance</div></div>
+      <div class="stat-card"><div class="stat-number" id="statPlans">3</div><div class="stat-label">Crop plans</div></div>
+    </div>
+
+
+    <!-- ================= MY PRODUCTS (CRUD + SEARCH) ================= -->
+    <section id="productsSection" class="page-section">
+      <h2 class="page-title">My Products</h2>
+      <p class="page-subtitle">Add, edit, delete and search the products you sell.</p>
+
+      <div id="productMessage" class="message"></div>
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <h3 id="productFormTitle">Add New Product</h3>
+            <form id="productForm">
+              <fieldset>
+                <legend>Product Details</legend>
+                <table class="form-table">
+                  <tbody><tr>
+                    <td><label for="productName">Product Name:</label></td>
+                    <td>
+                      <input type="text" id="productName" placeholder="e.g. Bogura Potatoes">
+                      <span class="error" id="productNameError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="productCategory">Category:</label></td>
+                    <td>
+                      <select id="productCategory">
+                        <option value="">-- Select --</option>
+                        <option>Vegetables</option>
+                        <option>Fruit</option>
+                        <option>Rice and Pulses</option>
+                        <option>Eggs and Dairy</option>
+                        <option>Spices</option>
+                      </select>
+                      <span class="error" id="productCategoryError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="productPrice">Price (Tk):</label></td>
+                    <td>
+                      <input type="number" id="productPrice" min="1" placeholder="45">
+                      <span class="error" id="productPriceError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="productUnit">Unit:</label></td>
+                    <td>
+                      <select id="productUnit">
+                        <option>kg</option>
+                        <option>liter</option>
+                        <option>4 eggs</option>
+                        <option>piece</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="productStock">Stock:</label></td>
+                    <td>
+                      <input type="number" id="productStock" min="0" placeholder="100">
+                      <span class="error" id="productStockError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="productDescription">Description:</label></td>
+                    <td><textarea id="productDescription" rows="3" placeholder="Describe the product"></textarea></td>
+                  </tr>
+                </tbody></table>
+              </fieldset>
+              <input type="submit" id="productSaveButton" class="btn" value="Add Product">
+              <button type="button" class="btn btn-secondary">Cancel</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-wide">
+          <div class="card">
+            <h3>Product List</h3>
+            <div class="search-bar">
+              <input type="text" id="productSearch" placeholder="Search by name...">
+              <select id="productCategoryFilter">
+                <option value="All">All categories</option>
+                <option>Vegetables</option>
+                <option>Fruit</option>
+                <option>Rice and Pulses</option>
+                <option>Eggs and Dairy</option>
+                <option>Spices</option>
+              </select>
+            </div>
+            <p class="result-count" id="productCount">4 product(s)</p>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr><th>ID</th><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="productBody"><tr><td>P-101</td><td><div class="thumb no-image">No photo</div><strong>Bogura Potatoes</strong><br><span class="hint">Fresh potatoes harvested from fields in Bogura.</span></td><td>Vegetables</td><td>Tk 45 / kg</td><td><span class="badge green">320 in stock</span></td><td><button type="button" class="btn btn-small">Edit</button><button type="button" class="btn btn-small btn-danger">Delete</button></td></tr><tr><td>P-105</td><td><div class="thumb no-image">No photo</div><strong>Local Onions</strong><br><span class="hint">Local onions, dried and sorted.</span></td><td>Vegetables</td><td>Tk 90 / kg</td><td><span class="badge green">140 in stock</span></td><td><button type="button" class="btn btn-small">Edit</button><button type="button" class="btn btn-small btn-danger">Delete</button></td></tr><tr><td>P-106</td><td><div class="thumb no-image">No photo</div><strong>Green Chilies</strong><br><span class="hint">Hot green chilies, picked this week.</span></td><td>Spices</td><td>Tk 120 / kg</td><td><span class="badge orange">18 left</span></td><td><button type="button" class="btn btn-small">Edit</button><button type="button" class="btn btn-small btn-danger">Delete</button></td></tr><tr><td>P-109</td><td><img width="40" height="40" class="thumb" src="images/tomato.webp" alt="Fresh Tomatoes"><strong>Fresh Tomatoes</strong><br><span class="hint">Red, firm tomatoes.</span></td><td>Vegetables</td><td>Tk 50 / kg</td><td><span class="badge green">150 in stock</span></td><td><button type="button" class="btn btn-small">Edit</button><button type="button" class="btn btn-small btn-danger">Delete</button></td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================= UNIQUE FEATURE 1: CROP PLANNER ================= -->
+    <section id="cropSection" class="page-section">
+      <h2 class="page-title">Crop Planner</h2>
+      <p class="page-subtitle">Plan your land. The harvest date is worked out from the sowing date.</p>
+
+      <div id="cropMessage" class="message"></div>
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <h3>New plan</h3>
+            <form id="cropForm">
+              <fieldset>
+                <legend>Crop</legend>
+                <table class="form-table">
+                  <tbody><tr>
+                    <td><label for="cropName">Crop:</label></td>
+                    <td>
+                      <select id="cropName">
+                        <option value="">-- Select --</option>
+                      <option value="Aman Rice">Aman Rice (120 days)</option><option value="Potatoes">Potatoes (90 days)</option><option value="Mustard">Mustard (85 days)</option><option value="Tomatoes">Tomatoes (75 days)</option><option value="Onions">Onions (110 days)</option><option value="Chilies">Chilies (100 days)</option></select>
+                      <span class="error" id="cropNameError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="cropLand">Land (bigha):</label></td>
+                    <td>
+                      <input type="number" id="cropLand" min="1">
+                      <span class="error" id="cropLandError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="cropDate">Sowing Date:</label></td>
+                    <td>
+                      <input type="date" id="cropDate">
+                      <span class="error" id="cropDateError"></span>
+                    </td>
+                  </tr>
+                </tbody></table>
+              </fieldset>
+              <input type="submit" class="btn" value="Add Plan">
+            </form>
+          </div>
+        </div>
+        <div class="col-wide">
+          <div class="card">
+            <h3>My plans</h3>
+            <p class="result-count" id="cropTotal">Total land planned: 18 bigha</p>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Crop</th><th>Land</th><th>Sowing</th><th>Harvest</th><th>Stage</th><th></th></tr>
+                </thead>
+                <tbody id="cropBody"><tr><td><strong>Aman Rice</strong></td><td>10 bigha</td><td>2026-07-15</td><td>2026-11-12</td><td><span class="badge blue">Growing, 9 days left</span></td><td><button type="button" class="btn btn-small btn-danger">Remove</button></td></tr><tr><td><strong>Potatoes</strong></td><td>5 bigha</td><td>2026-11-15</td><td>2027-02-13</td><td><span class="badge grey">Planned</span></td><td><button type="button" class="btn btn-small btn-danger">Remove</button></td></tr><tr><td><strong>Mustard</strong></td><td>3 bigha</td><td>2026-10-10</td><td>2027-01-03</td><td><span class="badge blue">Growing, 61 days left</span></td><td><button type="button" class="btn btn-small btn-danger">Remove</button></td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================= UNIQUE FEATURE 2: EARNINGS AND PAYOUT REQUEST ================= -->
+    <section id="payoutSection" class="page-section">
+      <h2 class="page-title">Earnings and Payout Request</h2>
+      <p class="page-subtitle">Move your balance to bKash or Nagad.</p>
+
+      <div id="payoutMessage" class="message"></div>
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <h3>Request a payout</h3>
+            <div class="result-box">
+              <p>Available balance</p>
+              <p class="big" id="payoutBalance">Tk 18,200</p>
+              <p class="hint" id="payoutPaid">Tk 8,000 paid out so far</p>
+            </div>
+            <form id="payForm" class="card-note">
+              <fieldset>
+                <legend>Payout</legend>
+                <table class="form-table">
+                  <tbody><tr>
+                    <td>Method:</td>
+                    <td>
+                      <input type="radio" id="payBkash" name="payMethod" value="bKash" checked="">
+                      <label for="payBkash" class="option-label">bKash</label>
+                      <input type="radio" id="payNagad" name="payMethod" value="Nagad">
+                      <label for="payNagad" class="option-label">Nagad</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="payNumber">Mobile:</label></td>
+                    <td>
+                      <input type="tel" id="payNumber" placeholder="01XXXXXXXXX">
+                      <span class="error" id="payNumberError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="payAmount">Amount (Tk):</label></td>
+                    <td>
+                      <input type="number" id="payAmount" min="100">
+                      <span class="error" id="payAmountError"></span>
+                    </td>
+                  </tr>
+                </tbody></table>
+              </fieldset>
+              <input type="submit" class="btn" value="Submit Request">
+            </form>
+          </div>
+        </div>
+        <div class="col-wide">
+          <div class="card">
+            <h3>Payout history</h3>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr><th>ID</th><th>Date</th><th>Sent to</th><th>Amount</th><th>Status</th></tr>
+                </thead>
+                <tbody id="payoutBody"><tr><td>W-002</td><td>2026-10-27</td><td>Nagad 01711000002</td><td>Tk 3,000</td><td><span class="badge green">Paid</span></td></tr><tr><td>W-001</td><td>2026-10-12</td><td>bKash 01711000002</td><td>Tk 5,000</td><td><span class="badge green">Paid</span></td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================= UNIQUE FEATURE 3: PRICE GUIDE ================= -->
+    <section id="guideSection" class="page-section">
+      <h2 class="page-title">Price Guide</h2>
+      <p class="page-subtitle">Your prices compared with today's market prices.</p>
+
+      <div id="guideMessage" class="message"></div>
+
+      <div class="card">
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr><th>Product</th><th>Market Price</th><th>My Price</th><th>Comment</th><th></th></tr>
+            </thead>
+            <tbody id="guideBody"><tr><td><strong>Bogura Potatoes</strong></td><td>Tk 40 - 48</td><td>Tk 45</td><td><span class="badge green">Fair</span></td><td></td></tr><tr><td><strong>Local Onions</strong></td><td>Tk 75 - 85</td><td>Tk 90</td><td><span class="badge red">Price too high</span></td><td><button type="button" class="btn btn-small">Use fair price</button></td></tr><tr><td><strong>Green Chilies</strong></td><td>Tk 110 - 130</td><td>Tk 120</td><td><span class="badge green">Fair</span></td><td></td></tr><tr><td><strong>Fresh Tomatoes</strong></td><td>Tk 55 - 70</td><td>Tk 50</td><td><span class="badge orange">Price too low</span></td><td><button type="button" class="btn btn-small">Use fair price</button></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SEARCH ALL PRODUCTS (READ ONLY) ================= -->
+    <section id="catalogSection" class="page-section">
+      <h2 class="page-title">Market Products</h2>
+      <p class="page-subtitle">See what other farmers are selling and at what price.</p>
+
+      <div class="card">
+        <div class="search-bar">
+          <input type="text" id="catalogSearch" placeholder="Search by product, farmer or district...">
+          <select id="catalogCategory">
+            <option value="All">All categories</option>
+            <option>Vegetables</option>
+            <option>Fruit</option>
+            <option>Rice and Pulses</option>
+            <option>Eggs and Dairy</option>
+            <option>Spices</option>
+          </select>
+        </div>
+        <p class="result-count" id="catalogCount">9 product(s) found</p>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr><th>Product</th><th>Farmer</th><th>Category</th><th>Price</th><th>Stock</th></tr>
+            </thead>
+            <tbody id="catalogBody"><tr><td><div class="thumb no-image">No photo</div><strong>Bogura Potatoes</strong></td><td>Rafiqul Islam<br><span class="hint">Bogura</span></td><td>Vegetables</td><td>Tk 45 / kg</td><td><span class="badge green">In stock</span></td></tr><tr><td><img width="40" height="40" class="thumb" src="images/rice.jpg" alt="Miniket Rice"><strong>Miniket Rice</strong></td><td>Kamal Uddin<br><span class="hint">Rajshahi</span></td><td>Rice and Pulses</td><td>Tk 72 / kg</td><td><span class="badge green">In stock</span></td></tr><tr><td><img width="40" height="40" class="thumb" src="images/mango.jpeg" alt="Himsagar Mangoes"><strong>Himsagar Mangoes</strong></td><td>Kamal Uddin<br><span class="hint">Rajshahi</span></td><td>Fruit</td><td>Tk 140 / kg</td><td><span class="badge green">In stock</span></td></tr><tr><td><img width="40" height="40" class="thumb" src="images/eggs.webp" alt="Farm Eggs"><strong>Farm Eggs</strong></td><td>Kamal Uddin<br><span class="hint">Pabna</span></td><td>Eggs and Dairy</td><td>Tk 50 / 4 eggs</td><td><span class="badge green">In stock</span></td></tr><tr><td><div class="thumb no-image">No photo</div><strong>Local Onions</strong></td><td>Rafiqul Islam<br><span class="hint">Bogura</span></td><td>Vegetables</td><td>Tk 90 / kg</td><td><span class="badge green">In stock</span></td></tr><tr><td><div class="thumb no-image">No photo</div><strong>Green Chilies</strong></td><td>Rafiqul Islam<br><span class="hint">Bogura</span></td><td>Spices</td><td>Tk 120 / kg</td><td><span class="badge orange">Only 18 left</span></td></tr><tr><td><div class="thumb no-image">No photo</div><strong>Mustard Oil</strong></td><td>Kamal Uddin<br><span class="hint">Pabna</span></td><td>Spices</td><td>Tk 260 / liter</td><td><span class="badge green">In stock</span></td></tr><tr><td><div class="thumb no-image">No photo</div><strong>Cow's Milk</strong></td><td>Kamal Uddin<br><span class="hint">Pabna</span></td><td>Eggs and Dairy</td><td>Tk 90 / liter</td><td><span class="badge green">In stock</span></td></tr><tr><td><img width="40" height="40" class="thumb" src="images/tomato.webp" alt="Fresh Tomatoes"><strong>Fresh Tomatoes</strong></td><td>Rafiqul Islam<br><span class="hint">Bogura</span></td><td>Vegetables</td><td>Tk 50 / kg</td><td><span class="badge green">In stock</span></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    © 2026 Agro Mart · Bangladesh
+  </footer>
+
+  
+  
+  
+
+
+</body></html>

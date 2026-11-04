@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<!-- Agro Mart 6.0: HTML with a small CSS file, no JavaScript. -->
+<html lang="en-US"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Customer dashboard of Agro Mart">
+  <title>Customer Dashboard | Agro Mart</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ================= HEADER ================= -->
+  <header class="header">
+    <a href="index.html" class="logo">Agro<span>Mart</span></a>
+    <div class="user-info">
+      <span class="badge customer">Customer</span>
+      <span>Welcome, Sumaiya Akter</span>
+      <a href="profile.html" class="btn btn-small btn-light">Profile</a>
+      <a href="index.html" class="btn btn-small btn-light">Logout</a>
+    </div>
+  </header>
+
+  <!-- ================= NAVBAR ================= -->
+  <nav class="topnav">
+    <a href="#addressSection">My Addresses</a>
+    <a href="#cartSection">Cart &amp; Checkout</a>
+    <a href="#priceAlertSection">Price Drop Alerts</a>
+    <a href="#stockAlertSection">Stock Alerts</a>
+    <a href="#trackSection">Order Tracking</a>
+    <a href="#reviewSection">Review &amp; Rating</a>
+  </nav>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main class="container">
+
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-number" id="statCart">3</div><div class="stat-label">Items in cart</div></div>
+      <div class="stat-card"><div class="stat-number" id="statOrders">2</div><div class="stat-label">Active orders</div></div>
+      <div class="stat-card"><div class="stat-number" id="statAddresses">3</div><div class="stat-label">Saved addresses</div></div>
+      <div class="stat-card"><div class="stat-number" id="statReviews">0</div><div class="stat-label">My reviews</div></div>
+      <div class="stat-card"><div class="stat-number" id="statPriceAlerts">3</div><div class="stat-label">Price drop alerts</div></div>
+      <div class="stat-card"><div class="stat-number" id="statStockAlerts">3</div><div class="stat-label">Stock alerts</div></div>
+    </div>
+
+
+    <!-- ================= SAVED ADDRESSES (CRUD + SEARCH) ================= -->
+    <section id="addressSection" class="page-section">
+      <h2 class="page-title">My Delivery Addresses</h2>
+      <p class="page-subtitle">Add, edit, delete and search your addresses. You choose one at checkout.</p>
+
+      <div id="addressMessage" class="message"></div>
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <h3 id="addressFormTitle">Add New Address</h3>
+            <form id="addressForm">
+              <fieldset>
+                <legend>Address Details</legend>
+                <table class="form-table">
+                  <tbody><tr>
+                    <td>Label:</td>
+                    <td>
+                      <input type="radio" id="labelHome" name="addressLabel" value="Home" checked="">
+                      <label for="labelHome" class="option-label">Home</label>
+                      <input type="radio" id="labelOffice" name="addressLabel" value="Office">
+                      <label for="labelOffice" class="option-label">Office</label>
+                      <input type="radio" id="labelOther" name="addressLabel" value="Other">
+                      <label for="labelOther" class="option-label">Other</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="addressRecipient">Recipient:</label></td>
+                    <td>
+                      <input type="text" id="addressRecipient" placeholder="Who receives the order">
+                      <span class="error" id="addressRecipientError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="addressPhone">Mobile:</label></td>
+                    <td>
+                      <input type="tel" id="addressPhone" placeholder="01XXXXXXXXX">
+                      <span class="error" id="addressPhoneError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="addressArea">Area:</label></td>
+                    <td>
+                      <input type="text" id="addressArea" placeholder="e.g. Mirpur 12">
+                      <span class="error" id="addressAreaError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="addressDistrict">District:</label></td>
+                    <td>
+                      <select id="addressDistrict">
+                        <option>Dhaka</option>
+                        <option>Bogura</option>
+                        <option>Rajshahi</option>
+                        <option>Dinajpur</option>
+                        <option>Khulna</option>
+                        <option>Chattogram</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="addressDetails">Address:</label></td>
+                    <td>
+                      <textarea id="addressDetails" rows="2" placeholder="House, road"></textarea>
+                      <span class="error" id="addressDetailsError"></span>
+                    </td>
+                  </tr>
+                </tbody></table>
+              </fieldset>
+              <input type="submit" id="addressSaveButton" class="btn" value="Save Address">
+              <button type="button" class="btn btn-secondary">Cancel</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-wide">
+          <div class="card">
+            <h3>Saved Addresses</h3>
+            <div class="search-bar">
+              <input type="text" id="addressSearch" placeholder="Search by name, area or address...">
+              <select id="addressLabelFilter">
+                <option value="All">All labels</option>
+                <option>Home</option>
+                <option>Office</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <p class="result-count" id="addressCount">3 address(es)</p>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Label</th><th>Recipient</th><th>Address</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="addressBody"><tr><td><span class="badge blue">Home</span></td><td><strong>Sumaiya Akter</strong><br><span class="hint">01611000004</span></td><td class="wrap">House 12, Road 5, Mirpur 12<br><span class="hint">Mirpur 12, Dhaka</span></td><td><button type="button" class="btn btn-small">Edit</button><button type="button" class="btn btn-small btn-danger">Delete</button></td></tr><tr><td><span class="badge blue">Office</span></td><td><strong>Sumaiya Akter</strong><br><span class="hint">01611000004</span></td><td class="wrap">Level 4, City Tower, Motijheel<br><span class="hint">Motijheel, Dhaka</span></td><td><button type="button" class="btn btn-small">Edit</button><button type="button" class="btn btn-small btn-danger">Delete</button></td></tr><tr><td><span class="badge blue">Other</span></td><td><strong>Rokeya Begum</strong><br><span class="hint">01911000012</span></td><td class="wrap">Road 3, Sonadanga R/A<br><span class="hint">Sonadanga, Khulna</span></td><td><button type="button" class="btn btn-small">Edit</button><button type="button" class="btn btn-small btn-danger">Delete</button></td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================= UNIQUE FEATURE 1: CART AND CHECKOUT ================= -->
+    <section id="cartSection" class="page-section">
+      <h2 class="page-title">Cart and Checkout</h2>
+      <p class="page-subtitle">Add products, choose an address and place your order. Delivery is free.</p>
+
+      <div id="cartMessage" class="message"></div>
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <h3>Products</h3>
+            <div class="search-bar">
+              <input type="text" id="shopSearch" placeholder="Search products...">
+              <select id="shopCategory">
+                <option value="All">All categories</option>
+                <option>Vegetables</option>
+                <option>Fruit</option>
+                <option>Rice and Pulses</option>
+                <option>Eggs and Dairy</option>
+                <option>Spices</option>
+              </select>
+            </div>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Product</th><th>Price</th><th>Stock</th><th></th></tr>
+                </thead>
+                <tbody id="shopBody"><tr><td><div class="thumb no-image">No photo</div><strong>Bogura Potatoes</strong><br><span class="hint">Bogura</span></td><td>Tk 45 / kg</td><td>320</td><td><button type="button" class="btn btn-small">Add</button></td></tr><tr><td><img width="40" height="40" class="thumb" src="images/rice.jpg" alt="Miniket Rice"><strong>Miniket Rice</strong><br><span class="hint">Rajshahi</span></td><td>Tk 72 / kg</td><td>500</td><td><button type="button" class="btn btn-small">Add</button></td></tr><tr><td><img width="40" height="40" class="thumb" src="images/mango.jpeg" alt="Himsagar Mangoes"><strong>Himsagar Mangoes</strong><br><span class="hint">Rajshahi</span></td><td>Tk 140 / kg</td><td>90</td><td><button type="button" class="btn btn-small">Add</button></td></tr><tr><td><img width="40" height="40" class="thumb" src="images/eggs.webp" alt="Farm Eggs"><strong>Farm Eggs</strong><br><span class="hint">Pabna</span></td><td>Tk 50 / 4 eggs</td><td>200</td><td><button type="button" class="btn btn-small">Add</button></td></tr><tr><td><div class="thumb no-image">No photo</div><strong>Local Onions</strong><br><span class="hint">Bogura</span></td><td>Tk 90 / kg</td><td>140</td><td><button type="button" class="btn btn-small">Add</button></td></tr><tr><td><div class="thumb no-image">No photo</div><strong>Green Chilies</strong><br><span class="hint">Bogura</span></td><td>Tk 120 / kg</td><td>18</td><td><button type="button" class="btn btn-small">Add</button></td></tr><tr><td><div class="thumb no-image">No photo</div><strong>Mustard Oil</strong><br><span class="hint">Pabna</span></td><td>Tk 260 / liter</td><td>75</td><td><button type="button" class="btn btn-small">Add</button></td></tr><tr><td><div class="thumb no-image">No photo</div><strong>Cow's Milk</strong><br><span class="hint">Pabna</span></td><td>Tk 90 / liter</td><td>60</td><td><button type="button" class="btn btn-small">Add</button></td></tr><tr><td><img width="40" height="40" class="thumb" src="images/tomato.webp" alt="Fresh Tomatoes"><strong>Fresh Tomatoes</strong><br><span class="hint">Bogura</span></td><td>Tk 50 / kg</td><td>150</td><td><button type="button" class="btn btn-small">Add</button></td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card">
+            <h3>My Cart</h3>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Product</th><th>Price</th><th>Qty</th><th>Total</th><th></th></tr>
+                </thead>
+                <tbody id="cartBody"><tr><td>Bogura Potatoes</td><td>Tk 45</td><td><input type="number" class="qty-input" min="1" value="2"></td><td>Tk 90</td><td><button type="button" class="btn btn-small btn-danger">Remove</button></td></tr><tr><td>Local Onions</td><td>Tk 90</td><td><input type="number" class="qty-input" min="1" value="1"></td><td>Tk 90</td><td><button type="button" class="btn btn-small btn-danger">Remove</button></td></tr><tr><td>Miniket Rice</td><td>Tk 72</td><td><input type="number" class="qty-input" min="1" value="5"></td><td>Tk 360</td><td><button type="button" class="btn btn-small btn-danger">Remove</button></td></tr></tbody>
+              </table>
+            </div>
+            <div class="result-box">
+              <p>Grand total (free delivery)</p>
+              <p class="big" id="cartTotal">Tk 540</p>
+            </div>
+            <form id="checkoutForm" class="card-note">
+              <fieldset>
+                <legend>Checkout</legend>
+                <table class="form-table">
+                  <tbody><tr>
+                    <td><label for="checkoutAddress">Deliver to:</label></td>
+                    <td>
+                      <select id="checkoutAddress"><option value="">-- Select address --</option><option value="A-001">Home: House 12, Road 5, Mirpur 12</option><option value="A-002">Office: Level 4, City Tower, Motijheel</option><option value="A-003">Other: Road 3, Sonadanga R/A</option></select>
+                      <span class="error" id="checkoutAddressError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Payment:</td>
+                    <td>
+                      <input type="radio" id="payBkash" name="checkoutPayment" value="bKash" checked="">
+                      <label for="payBkash" class="option-label">bKash</label>
+                      <input type="radio" id="payNagad" name="checkoutPayment" value="Nagad">
+                      <label for="payNagad" class="option-label">Nagad</label>
+                      <input type="radio" id="payCod" name="checkoutPayment" value="Cash on Delivery">
+                      <label for="payCod" class="option-label">Cash on Delivery</label>
+                    </td>
+                  </tr>
+                </tbody></table>
+              </fieldset>
+              <input type="submit" class="btn" value="Place Order">
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================= PRICE DROP ALERTS ================= -->
+    <section id="priceAlertSection" class="page-section">
+      <h2 class="page-title">Price Drop Alerts</h2>
+      <p class="page-subtitle">Pick a favourite product and a target price. You get a notification when the price falls.</p>
+
+      <div id="priceAlertMessage" class="message"></div>
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <h3>Set a price alert</h3>
+            <form id="priceAlertForm">
+              <fieldset>
+                <legend>Alert Details</legend>
+                <table class="form-table">
+                  <tbody><tr>
+                    <td><label for="priceAlertProduct">Product:</label></td>
+                    <td>
+                      <select id="priceAlertProduct">
+                        <option value="">-- Select product --</option>
+                        <option value="P-101">Bogura Potatoes (Tk 45 / kg)</option>
+                        <option value="P-102">Miniket Rice (Tk 72 / kg)</option>
+                        <option value="P-103">Himsagar Mangoes (Tk 140 / kg)</option>
+                        <option value="P-104">Farm Eggs (Tk 50 / 4 eggs)</option>
+                        <option value="P-105">Local Onions (Tk 90 / kg)</option>
+                        <option value="P-106">Green Chilies (Tk 120 / kg)</option>
+                        <option value="P-107">Mustard Oil (Tk 260 / liter)</option>
+                        <option value="P-108">Cow's Milk (Tk 90 / liter)</option>
+                        <option value="P-109">Fresh Tomatoes (Tk 50 / kg)</option>
+                      </select>
+                      <span class="error" id="priceAlertProductError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="priceAlertTarget">Notify me at or below:</label></td>
+                    <td>
+                      Tk <input type="number" id="priceAlertTarget" min="1" placeholder="e.g. 80">
+                      <span class="error" id="priceAlertTargetError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Notify by:</td>
+                    <td>
+                      <input type="checkbox" id="priceNotifyApp" checked="">
+                      <label for="priceNotifyApp" class="option-label">In-app</label>
+                      <input type="checkbox" id="priceNotifySms">
+                      <label for="priceNotifySms" class="option-label">SMS</label>
+                      <input type="checkbox" id="priceNotifyEmail">
+                      <label for="priceNotifyEmail" class="option-label">Email</label>
+                    </td>
+                  </tr>
+                </tbody></table>
+              </fieldset>
+              <input type="submit" class="btn" value="Save Alert">
+            </form>
+          </div>
+        </div>
+
+        <div class="col-wide">
+          <div class="card">
+            <h3>My price alerts</h3>
+            <p class="result-count" id="priceAlertCount">3 alert(s)</p>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Product</th><th>Current price</th><th>Target price</th><th>Status</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="priceAlertBody"><tr><td><strong>Local Onions</strong><br><span class="hint">Bogura</span></td><td>Tk 90 / kg</td><td>Tk 75</td><td><span class="badge blue">Watching</span></td><td><button type="button" class="btn btn-small">Edit</button><button type="button" class="btn btn-small btn-danger">Delete</button></td></tr><tr><td><strong>Mustard Oil</strong><br><span class="hint">Pabna</span></td><td>Tk 240 / liter <span class="hint">(was Tk 260)</span></td><td>Tk 245</td><td><span class="badge green">Price dropped</span></td><td><button type="button" class="btn btn-small">Add to Cart</button><button type="button" class="btn btn-small btn-danger">Delete</button></td></tr><tr><td><strong>Himsagar Mangoes</strong><br><span class="hint">Rajshahi</span></td><td>Tk 140 / kg</td><td>Tk 120</td><td><span class="badge blue">Watching</span></td><td><button type="button" class="btn btn-small">Edit</button><button type="button" class="btn btn-small btn-danger">Delete</button></td></tr></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Price drop notifications</h3>
+            <div id="priceAlertNotifications"><div class="review"><strong>Mustard Oil</strong> is now <strong>Tk 240 / liter</strong> (was Tk 260). It is below your target of Tk 245.<br><span class="hint">2026-11-03 · 09:15 AM · In-app, SMS</span></div><div class="review"><strong>Miniket Rice</strong> dropped to <strong>Tk 68 / kg</strong> (was Tk 72). Price is back to Tk 72 now.<br><span class="hint">2026-10-28 · 06:40 PM · In-app</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================= BACK-IN-STOCK ALERTS ================= -->
+    <section id="stockAlertSection" class="page-section">
+      <h2 class="page-title">Stock Alerts</h2>
+      <p class="page-subtitle">Follow a product that is out of stock. You get a notification as soon as it is back.</p>
+
+      <div id="stockAlertMessage" class="message"></div>
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <h3>Out of stock now</h3>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Product</th><th>Price</th><th>Stock</th><th></th></tr>
+                </thead>
+                <tbody id="outOfStockBody"><tr><td><strong>Masoor Dal</strong><br><span class="hint">Faridpur</span></td><td>Tk 130 / kg</td><td><span class="badge red">0</span></td><td><button type="button" class="btn btn-small btn-secondary">Following</button></td></tr><tr><td><strong>Date Palm Jaggery</strong><br><span class="hint">Jashore</span></td><td>Tk 350 / kg</td><td><span class="badge red">0</span></td><td><button type="button" class="btn btn-small btn-secondary">Following</button></td></tr><tr><td><strong>Turmeric Powder</strong><br><span class="hint">Bogura</span></td><td>Tk 380 / kg</td><td><span class="badge red">0</span></td><td><button type="button" class="btn btn-small">Notify Me</button></td></tr><tr><td><strong>Litchi</strong><br><span class="hint">Dinajpur</span></td><td>Tk 400 / 100 pcs</td><td><span class="badge red">0</span></td><td><button type="button" class="btn btn-small">Notify Me</button></td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-wide">
+          <div class="card">
+            <h3>My stock alerts</h3>
+            <p class="result-count" id="stockAlertCount">3 alert(s)</p>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Product</th><th>Status</th><th>Alert set on</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="stockAlertBody"><tr><td><strong>Masoor Dal</strong><br><span class="hint">Faridpur</span></td><td><span class="badge red">Out of stock</span></td><td>2026-10-25</td><td><button type="button" class="btn btn-small btn-danger">Remove</button></td></tr><tr><td><strong>Date Palm Jaggery</strong><br><span class="hint">Jashore</span></td><td><span class="badge red">Out of stock</span></td><td>2026-10-30</td><td><button type="button" class="btn btn-small btn-danger">Remove</button></td></tr><tr><td><strong>Green Chilies</strong><br><span class="hint">Bogura</span></td><td><span class="badge green">Back in stock (18)</span></td><td>2026-10-18</td><td><button type="button" class="btn btn-small">Add to Cart</button><button type="button" class="btn btn-small btn-danger">Remove</button></td></tr></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Back-in-stock notifications</h3>
+            <div id="stockAlertNotifications"><div class="review"><strong>Green Chilies</strong> are back in stock. 18 kg available at Tk 120 / kg. Order soon, stock is low.<br><span class="hint">2026-11-02 · 11:05 AM · In-app, SMS</span></div><div class="review"><strong>Cow's Milk</strong> is back in stock. 60 liters available at Tk 90 / liter.<br><span class="hint">2026-10-22 · 07:30 AM · In-app</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================= UNIQUE FEATURE 2: ORDER TRACKING ================= -->
+    <section id="trackSection" class="page-section">
+      <h2 class="page-title">Order Tracking</h2>
+      <p class="page-subtitle">See how far your order has come.</p>
+
+      <div class="card">
+        <label for="trackOrder">Order:</label>
+        <select id="trackOrder"><option value="AM-10247">#AM-10247 (Placed)</option><option value="AM-10245">#AM-10245 (On the way)</option><option value="AM-10241">#AM-10241 (Delivered)</option></select>
+
+        <div class="track-steps" id="trackSteps"><div class="track-step done">Placed</div><div class="track-step">Packed</div><div class="track-step">Picked</div><div class="track-step">On the way</div><div class="track-step">Delivered</div></div>
+
+        <p id="trackInfo"><strong>Total:</strong> Tk 270 · Cash on Delivery (to pay)<br><strong>Deliver to:</strong> House 12, Road 5, Mirpur 12<br><strong>Delivery person:</strong> Zahid Hasan (01311000006)</p>
+
+        <div class="table-wrapper card-note">
+          <table class="data-table">
+            <thead>
+              <tr><th>Product</th><th>Quantity</th><th>Total</th></tr>
+            </thead>
+            <tbody id="trackItems"><tr><td>Fresh Tomatoes</td><td>3</td><td>Tk 150</td></tr><tr><td>Green Chilies</td><td>1</td><td>Tk 120</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================= UNIQUE FEATURE 3: REVIEW AND RATING ================= -->
+    <section id="reviewSection" class="page-section">
+      <h2 class="page-title">Review and Rating</h2>
+      <p class="page-subtitle">Rate the products you have received.</p>
+
+      <div id="reviewMessage" class="message"></div>
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <h3>Write a review</h3>
+            <form id="reviewForm">
+              <fieldset>
+                <legend>Your review</legend>
+                <table class="form-table">
+                  <tbody><tr>
+                    <td><label for="reviewProduct">Product:</label></td>
+                    <td>
+                      <select id="reviewProduct"><option value="">-- Select product --</option><option value="P-101">Bogura Potatoes</option><option value="P-102">Miniket Rice</option></select>
+                      <span class="error" id="reviewProductError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="reviewRating">Rating:</label></td>
+                    <td>
+                      <select id="reviewRating">
+                        <option value="5">5 - Excellent</option>
+                        <option value="4">4 - Good</option>
+                        <option value="3">3 - Average</option>
+                        <option value="2">2 - Poor</option>
+                        <option value="1">1 - Very Poor</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="reviewComment">Feedback:</label></td>
+                    <td>
+                      <textarea id="reviewComment" rows="3" placeholder="How was the product?"></textarea>
+                      <span class="error" id="reviewCommentError"></span>
+                    </td>
+                  </tr>
+                </tbody></table>
+              </fieldset>
+              <input type="submit" class="btn" value="Submit Review">
+            </form>
+          </div>
+        </div>
+        <div class="col-wide">
+          <div class="card">
+            <h3>Reviews (average <span id="reviewAverage">4 / 5</span>)</h3>
+            <div id="reviewList"><div class="review"><strong>Cow's Milk</strong> <span class="stars">★★★★☆</span><br>Fresh and tasty.<br><span class="hint">Nasrin Sultana · 2026-10-20</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    © 2026 Agro Mart · Bangladesh
+  </footer>
+
+  
+  
+  
+
+
+</body></html>

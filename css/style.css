@@ -1,0 +1,109 @@
+
+/* ================= PAGE COLOURS ================= */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #222222;
+  background-color: #F4F8F1;
+}
+
+h1,
+h2,
+h3 {
+  color: #1B5E20;
+}
+
+a {
+  color: #2E7D32;
+}
+
+/* Space at the sides of the page content */
+main,
+.hero {
+  padding: 0 20px;
+}
+
+/* ================= HEADER ================= */
+.header {
+  padding: 12px 20px;
+  color: white;
+  background-color: #2E7D32;
+}
+
+.header a {
+  color: white;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* ================= MENU ================= */
+.topnav {
+  padding: 8px 20px;
+  background-color: #FBC02D;
+}
+
+.topnav a {
+  margin-right: 14px;
+  font-weight: bold;
+  color: #1B5E20;
+  text-decoration: none;
+}
+
+.topnav a:hover {
+  text-decoration: underline;
+}
+
+/* ================= BUTTONS ================= */
+.btn,
+input[type="submit"],
+button {
+  display: inline-block;
+  padding: 6px 14px;
+  font-size: 15px;
+  color: white;
+  background-color: #2E7D32;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn:hover,
+input[type="submit"]:hover,
+button:hover {
+  background-color: #1B5E20;
+}
+
+/* Yellow and red buttons */
+.btn-light,
+.btn-secondary {
+  color: #1B5E20;
+  background-color: #FBC02D;
+}
+
+.btn-danger {
+  background-color: #C62828;
+}
+
+/* Yellow buttons on the green header keep dark green text */
+.header .btn-light {
+  color: #1B5E20;
+}
+
+/* ================= FOOTER ================= */
+.footer {
+  margin-top: 30px;
+  padding: 16px;
+  text-align: center;
+  color: #FBC02D;
+  background-color: #1B5E20;
+}
+
+.footer a {
+  margin: 0 6px;
+  color: white;
+}

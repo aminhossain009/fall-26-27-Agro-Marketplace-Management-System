@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<!-- Agro Mart 6.0: HTML with a small CSS file, no JavaScript. -->
+<html lang="en-US"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Agro Mart: buy fresh produce directly from farmers in Bangladesh">
+  <title>Home | Agro Mart</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ================= HEADER ================= -->
+  <header class="header">
+    <a href="index.html" class="logo">Agro<span>Mart</span></a>
+    <div class="user-info">
+      <a href="login.html" class="btn btn-small btn-light">Login</a>
+      <a href="register.html" class="btn btn-small">Register</a>
+    </div>
+  </header>
+
+  <!-- ================= NAVBAR ================= -->
+  <nav class="topnav">
+    <a href="index.html" class="active">Home</a>
+    <a href="products.html">Products</a>
+    <a href="index.html#search">Search Products</a>
+    <a href="index.html#why">Why Agro Mart</a>
+    <a href="index.html#who">Who It's For</a>
+    <a href="index.html#how">How It Works</a>
+    <a href="index.html#hours">Delivery Hours</a>
+    <a href="index.html#contact">Contact Us</a>
+  </nav>
+
+  <!-- ================= HERO ================= -->
+  <div class="hero">
+    <h1>Fresh from the Field, Delivered to Your Door</h1>
+    <p>Buy directly from farmers at fair prices.</p>
+    <!-- The search word goes to products.html in the URL: products.html?q=rice -->
+    <form class="hero-search" action="products.html" method="get">
+      <input type="text" name="q" placeholder="Potatoes, rice, mangoes...">
+      <input type="submit" class="btn" value="Search">
+    </form>
+  </div>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main class="container">
+
+    <!-- ================= POPULAR PRODUCTS ================= -->
+    <section class="home-section">
+      <h2 class="section-heading">Popular Products</h2>
+      <div class="product-list" id="popularList"><div class="product"><img width="200" height="150" class="product-image" src="images/rice.jpg" alt="Miniket Rice"><h3 class="name">Miniket Rice</h3><p class="price">Tk 72 / kg</p><a class="btn btn-small" href="login.html">Buy</a></div><div class="product"><img width="200" height="150" class="product-image" src="images/mango.jpeg" alt="Himsagar Mangoes"><h3 class="name">Himsagar Mangoes</h3><p class="price">Tk 140 / kg</p><a class="btn btn-small" href="login.html">Buy</a></div><div class="product"><img width="200" height="150" class="product-image" src="images/eggs.webp" alt="Farm Eggs"><h3 class="name">Farm Eggs</h3><p class="price">Tk 50 / 4 eggs</p><a class="btn btn-small" href="login.html">Buy</a></div><div class="product"><img width="200" height="150" class="product-image" src="images/tomato.webp" alt="Fresh Tomatoes"><h3 class="name">Fresh Tomatoes</h3><p class="price">Tk 50 / kg</p><a class="btn btn-small" href="login.html">Buy</a></div></div>
+      <p class="auth-switch"><a class="btn" href="products.html">Browse All Products</a></p>
+    </section>
+
+    <!-- ================= SEARCH PRODUCTS (LIVE SEARCH) ================= -->
+    <section class="home-section" id="search">
+      <h2 class="section-heading">Search our products
+        <p>Type a product, farmer or district. The list changes as you type.</p>
+      </h2>
+      <div class="card">
+        <div class="search-bar">
+          <input type="text" id="catalogSearch" placeholder="e.g. rice, Bogura, Rafiqul...">
+          <select id="catalogCategory">
+            <option value="All">All categories</option>
+            <option>Vegetables</option>
+            <option>Fruit</option>
+            <option>Rice and Pulses</option>
+            <option>Eggs and Dairy</option>
+            <option>Spices</option>
+          </select>
+        </div>
+        <p class="result-count" id="catalogCount">9 product(s) found</p>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr><th>Product</th><th>Farmer</th><th>Category</th><th>Price</th><th>Stock</th></tr>
+            </thead>
+            <tbody id="catalogBody"><tr><td><div class="thumb no-image">No photo</div><strong>Bogura Potatoes</strong></td><td>Rafiqul Islam<br><span class="hint">Bogura</span></td><td>Vegetables</td><td>Tk 45 / kg</td><td><span class="badge green">In stock</span></td></tr><tr><td><img width="40" height="40" class="thumb" src="images/rice.jpg" alt="Miniket Rice"><strong>Miniket Rice</strong></td><td>Kamal Uddin<br><span class="hint">Rajshahi</span></td><td>Rice and Pulses</td><td>Tk 72 / kg</td><td><span class="badge green">In stock</span></td></tr><tr><td><img width="40" height="40" class="thumb" src="images/mango.jpeg" alt="Himsagar Mangoes"><strong>Himsagar Mangoes</strong></td><td>Kamal Uddin<br><span class="hint">Rajshahi</span></td><td>Fruit</td><td>Tk 140 / kg</td><td><span class="badge green">In stock</span></td></tr><tr><td><img width="40" height="40" class="thumb" src="images/eggs.webp" alt="Farm Eggs"><strong>Farm Eggs</strong></td><td>Kamal Uddin<br><span class="hint">Pabna</span></td><td>Eggs and Dairy</td><td>Tk 50 / 4 eggs</td><td><span class="badge green">In stock</span></td></tr><tr><td><div class="thumb no-image">No photo</div><strong>Local Onions</strong></td><td>Rafiqul Islam<br><span class="hint">Bogura</span></td><td>Vegetables</td><td>Tk 90 / kg</td><td><span class="badge green">In stock</span></td></tr><tr><td><div class="thumb no-image">No photo</div><strong>Green Chilies</strong></td><td>Rafiqul Islam<br><span class="hint">Bogura</span></td><td>Spices</td><td>Tk 120 / kg</td><td><span class="badge orange">Only 18 left</span></td></tr><tr><td><div class="thumb no-image">No photo</div><strong>Mustard Oil</strong></td><td>Kamal Uddin<br><span class="hint">Pabna</span></td><td>Spices</td><td>Tk 260 / liter</td><td><span class="badge green">In stock</span></td></tr><tr><td><div class="thumb no-image">No photo</div><strong>Cow's Milk</strong></td><td>Kamal Uddin<br><span class="hint">Pabna</span></td><td>Eggs and Dairy</td><td>Tk 90 / liter</td><td><span class="badge green">In stock</span></td></tr><tr><td><img width="40" height="40" class="thumb" src="images/tomato.webp" alt="Fresh Tomatoes"><strong>Fresh Tomatoes</strong></td><td>Rafiqul Islam<br><span class="hint">Bogura</span></td><td>Vegetables</td><td>Tk 50 / kg</td><td><span class="badge green">In stock</span></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= WHY AGRO MART ================= -->
+    <section class="home-section" id="why">
+      <h2 class="section-heading">Why Agro Mart?</h2>
+      <div class="feature-strip">
+        <div class="card feature">
+          <span class="feature-icon">1</span>
+          <h3>Direct from Farmers</h3>
+          <p>No middlemen involved.</p>
+        </div>
+        <div class="card feature">
+          <span class="feature-icon">2</span>
+          <h3>Fair Prices</h3>
+          <p>Prices are based on current market rates.</p>
+        </div>
+        <div class="card feature">
+          <span class="feature-icon">3</span>
+          <h3>Easy Payments</h3>
+          <p>bKash, Nagad, or Cash on Delivery.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= WHO IT'S FOR ================= -->
+    <section class="home-section" id="who">
+      <h2 class="section-heading">Who It's For
+        <p>Every user has their own dashboard.</p>
+      </h2>
+      <div class="role-grid">
+        <div class="role-card customer">
+          <h3>Customer</h3>
+          <ul>
+            <li>Saved delivery addresses</li>
+            <li>Cart and checkout</li>
+            <li>Order tracking</li>
+            <li>Review and rating</li>
+          </ul>
+          <a class="btn btn-small" href="register.html">Join as a customer</a>
+        </div>
+        <div class="role-card farmer">
+          <h3>Farmer</h3>
+          <ul>
+            <li>Manage your products</li>
+            <li>Crop planner</li>
+            <li>Earnings and payouts</li>
+            <li>Price guide</li>
+          </ul>
+          <a class="btn btn-small" href="register.html">Join as a farmer</a>
+        </div>
+        <div class="role-card delivery">
+          <h3>Delivery Man</h3>
+          <ul>
+            <li>Trip log</li>
+            <li>Assigned orders by area</li>
+            <li>Delivery status update</li>
+            <li>Delivery earnings</li>
+          </ul>
+          <a class="btn btn-small" href="register.html">Join as a delivery man</a>
+        </div>
+        <div class="role-card admin">
+          <h3>Admin</h3>
+          <ul>
+            <li>Manage users</li>
+            <li>User approval and ban</li>
+            <li>Today's market prices</li>
+            <li>Sales report</li>
+          </ul>
+          <a class="btn btn-small" href="login.html">Admin login</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= HOW IT WORKS ================= -->
+    <section class="home-section" id="how">
+      <h2 class="section-heading">How It Works</h2>
+      <div class="steps">
+        <div class="step"><span class="step-number">1</span><h3>Farmers list</h3><p>Farmers add their produce and prices.</p></div>
+        <div class="step"><span class="step-number">2</span><h3>Customers order</h3><p>Customers fill a cart and choose how to pay.</p></div>
+        <div class="step"><span class="step-number">3</span><h3>We deliver</h3><p>A delivery man brings the order to the door.</p></div>
+        <div class="step"><span class="step-number">4</span><h3>Customers review</h3><p>Ratings help everyone choose good produce.</p></div>
+      </div>
+    </section>
+
+    <!-- ================= DELIVERY HOURS AND CONTACT ================= -->
+    <div class="row">
+      <section class="col home-section" id="hours">
+        <div class="card">
+          <h3>Delivery hours</h3>
+          <table class="data-table">
+            <thead>
+              <tr><th>Day</th><th>Delivery time</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Saturday - Thursday</td><td>8:00 AM - 9:00 PM</td></tr>
+              <tr><td>Friday</td><td>3:00 PM - 9:00 PM</td></tr>
+              <tr><td>Public holidays</td><td>Closed</td></tr>
+            </tbody>
+          </table>
+          <p class="hint card-note">Orders placed before 2 PM are delivered the same day in Dhaka.</p>
+        </div>
+      </section>
+
+      <section class="col home-section" id="contact">
+        <div class="card">
+          <h3>Contact Us</h3>
+          <table class="contact-table">
+            <tbody><tr><td>Address:</td><td>Agro Mart Office, Dhanmondi, Dhaka</td></tr>
+            <tr><td>Phone:</td><td>01711-000001</td></tr>
+            <tr><td>Email:</td><td>admin@agromart.com</td></tr>
+          </tbody></table>
+        </div>
+      </section>
+    </div>
+
+    <!-- ================= CALL TO ACTION ================= -->
+    <section class="home-section">
+      <div class="cta-band">
+        <h2>Ready to buy fresh?</h2>
+        <p>Create a free account and get your first order today.</p>
+        <a class="btn btn-light" href="register.html">Register</a>
+        <a class="btn" href="login.html">Login</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="login.html">Login</a>
+      <a href="register.html">Register</a>
+    </div>
+    © 2026 Agro Mart · Bangladesh
+  </footer>
+
+  
+  
+  
+
+
+</body></html>

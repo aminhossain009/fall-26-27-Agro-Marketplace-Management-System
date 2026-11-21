@@ -179,3 +179,230 @@ document.getElementById("tripForm").addEventListener("submit", function (event) 
 document.querySelector("#tripForm .btn-secondary").addEventListener("click", resetTripForm);
 document.getElementById("tripSearch").addEventListener("keyup", renderTrips);
 document.getElementById("tripVehicleFilter").addEventListener("change", renderTrips);
+
+
+// Part 2: assigned orders + status update + earnings
+
+// Total price of one order
+function orderTotal(order) {
+  let total = 0;
+  for (const item of order.items) {
+    total += item.price * item.qty;
+  }
+  return total;
+}
+
+// Area drop-down (each area once)
+function fillAreaList() {
+  let select = document.getElementById("assignedArea");
+  let chosen = select.value;
+  let areas = [];
+  for (const order of orders) {
+    if (order.deliveryId === currentDeliveryId && areas.indexOf(order.area) === -1) {
+      areas.push(order.area);
+    }
+  }
+
+  select.innerHTML = "<option value='All'>All areas</option>";
+  for (const area of areas) {
+    let option = document.createElement("option");
+    option.value = area;
+    option.innerHTML = area;
+    select.appendChild(option);
+  }
+  select.value = (chosen === "") ? "All" : chosen;
+}
+
+// Assigned orders table + cash to collect
+function renderAssigned() {
+  let area = document.getElementById("assignedArea").value;
+  let showDone = document.getElementById("assignedShowDone").checked;
+
+  let rows = "";
+  let shown = 0;
+  let cash = 0;
+
+  for (const order of orders) {
+    if (order.deliveryId !== currentDeliveryId) {
+      continue;
+    }
+    if (area !== "All" && order.area !== area) {
+      continue;
+    }
+    if (order.status === "Delivered" && showDone === false) {
+      continue;
+    }
+
+    let amount;
+    if (order.paid) {
+      amount = order.payment + " (Paid)";
+    } else {
+      amount = "COD " + formatTaka(orderTotal(order));
+      if (order.status !== "Delivered") {
+        cash += orderTotal(order);
+      }
+    }
+
+    rows += "<tr>" +
+              "<td>#" + order.id + "</td>" +
+              "<td><strong>" + order.area + "</strong><br><span class='hint'>" + order.address + "</span></td>" +
+              "<td>" + order.customerName + "<br><span class='hint'>" + order.phone + "</span></td>" +
+              "<td>" + amount + "</td>" +
+              "<td>" + statusBadge(order.status) + "</td>" +
+            "</tr>";
+    shown++;
+  }
+
+  if (shown === 0) {
+    rows = "<tr><td colspan='5' class='empty-row'>No orders here.</td></tr>";
+  }
+  document.getElementById("assignedBody").innerHTML = rows;
+  document.getElementById("assignedCount").innerHTML = shown + " order(s), " + formatTaka(cash) + " cash to collect";
+}
+
+document.getElementById("assignedArea").addEventListener("change", renderAssigned);
+document.getElementById("assignedShowDone").addEventListener("change", renderAssigned);
+
+
+// Status update: orders that are not delivered yet
+function fillStatusOrders() {
+  let select = document.getElementById("statusOrder");
+  select.innerHTML = "<option value=''>-- Select order --</option>";
+  for (const order of orders) {
+    if (order.deliveryId === currentDeliveryId && order.status !== "Delivered") {
+      let option = document.createElement("option");
+      option.value = order.id;
+      option.innerHTML = "#" + order.id + " - " + order.area + " (" + order.status + ")";
+      select.appendChild(option);
+    }
+  }
+}
+
+// The step after the current one
+function nextStatus(order) {
+  return orderSteps[orderSteps.indexOf(order.status) + 1];
+}
+
+function showNextStatus() {
+  let orderId = document.getElementById("statusOrder").value;
+  let cell = document.getElementById("statusNext");
+  if (orderId === "") {
+    cell.innerHTML = "Choose an order first.";
+    return;
+  }
+  let order = orders[findIndexById(orders, orderId)];
+  cell.innerHTML = statusBadge(order.status) + " → " + statusBadge(nextStatus(order));
+}
+
+// Move the order one step forward
+function saveStatus() {
+  let orderId = document.getElementById("statusOrder").value;
+  if (orderId === "") {
+    showMessage("statusMessage", "Please choose an order.", "error");
+    return false;
+  }
+
+  let order = orders[findIndexById(orders, orderId)];
+  let newStatus = nextStatus(order);
+  order.status = newStatus;
+
+  // Delivered: cash collected and Tk 80 earned
+  if (newStatus === "Delivered") {
+    order.paid = true;
+    addDeliveryToday();
+  }
+
+  statusLog.unshift({ time: nowString(), orderId: order.id, status: newStatus });
+  showMessage("statusMessage", "#" + order.id + " is now <strong>" + newStatus + "</strong>.", "success");
+
+  refreshDeliveryPage();
+  return false;
+}
+
+function renderStatusBoard() {
+  let html = "";
+  for (const entry of statusLog) {
+    html += "<div class='log-item'><span class='log-time'>" + entry.time + "</span><br>#" + entry.orderId +
+            " → " + statusBadge(entry.status) + "</div>";
+  }
+  document.getElementById("statusBoard").innerHTML = html;
+}
+
+document.getElementById("statusOrder").addEventListener("change", showNextStatus);
+document.querySelector("#statusSection form").addEventListener("submit", function (event) {
+  event.preventDefault();
+  saveStatus();
+});
+
+
+// Earnings
+function getDeliveriesOn(date) {
+  for (const day of deliveryEarnings) {
+    if (day.date === date) {
+      return day.deliveries;
+    }
+  }
+  return 0;
+}
+
+function addDeliveryToday() {
+  let today = todayString();
+  for (const day of deliveryEarnings) {
+    if (day.date === today) {
+      day.deliveries++;
+      return;
+    }
+  }
+  deliveryEarnings.push({ date: today, deliveries: 1 });
+}
+
+function renderEarnings() {
+  let today = todayString();
+  let rows = "";
+  let total = 0;
+  let biggest = 1;
+
+  for (const day of deliveryEarnings) {
+    let label = (day.date === today) ? "<strong>Today</strong>" : day.date;
+    rows += "<tr><td>" + label + "</td><td>" + day.deliveries + "</td><td>" + formatTaka(day.deliveries * earningPerDelivery) + "</td></tr>";
+    total += day.deliveries * earningPerDelivery;
+    if (day.deliveries > biggest) {
+      biggest = day.deliveries;
+    }
+  }
+  if (getDeliveriesOn(today) === 0) {
+    rows += "<tr><td><strong>Today</strong></td><td>0</td><td>Tk 0</td></tr>";
+  }
+  document.getElementById("earningsBody").innerHTML = rows;
+  document.getElementById("earningsTotal").innerHTML = formatTaka(total);
+
+  // Bar chart (width = share of the best day)
+  let chart = document.getElementById("earningsChart");
+  chart.innerHTML = "";
+  for (const day of deliveryEarnings) {
+    let row = document.createElement("div");
+    row.className = "bar-row";
+    row.innerHTML = "<div class='bar-label'>" + day.date.slice(5) + "</div>" +
+                    "<div class='bar-track'><div class='bar-fill'></div></div>" +
+                    "<div class='bar-value'>" + (day.deliveries * earningPerDelivery) + "</div>";
+    chart.appendChild(row);
+    row.getElementsByClassName("bar-fill")[0].style.width = Math.round(day.deliveries / biggest * 100) + "%";
+  }
+}
+
+
+// Redraw everything
+function refreshDeliveryPage() {
+  updateDeliveryStats();
+  renderTrips();
+  fillAreaList();
+  renderAssigned();
+  fillStatusOrders();
+  showNextStatus();
+  renderStatusBoard();
+  renderEarnings();
+}
+
+
+// Start
+refreshDeliveryPage();

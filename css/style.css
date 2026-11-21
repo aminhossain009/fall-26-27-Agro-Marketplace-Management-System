@@ -686,3 +686,22 @@ input[type="submit"]:disabled {
   border-color: #2E7D32;
   background-color: #F1F8E9;
 }
+
+/* Footer - Amin */
+.footer {
+  margin-top: 30px;
+  padding: 16px;
+  text-align: center;
+  color: #FBC02D;
+  background-color: #1B5E20;
+  font-size: 0.9rem;
+}
+
+.footer-links {
+  margin-bottom: 6px;
+}
+
+.footer a {
+  margin: 0 6px;
+  color: white;
+}

@@ -587,3 +587,33 @@ input[type="submit"]:disabled {
   padding: 11px;
   font-size: 1rem;
 }
+
+/* Contact details table */
+.contact-table td {
+  padding: 4px 10px 4px 0;
+  vertical-align: top;
+}
+
+.contact-table td:first-child {
+  font-weight: bold;
+}
+
+/* Call to action band */
+.cta-band {
+  background-color: #FBC02D;
+  border-radius: 12px;
+  padding: 36px 20px;
+  text-align: center;
+}
+
+.cta-band p {
+  margin: 6px 0 16px 0;
+}
+
+.cta-band .btn {
+  margin: 4px;
+}
+
+.cta-band .btn-light {
+  background-color: white;
+}

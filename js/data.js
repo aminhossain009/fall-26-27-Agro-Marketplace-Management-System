@@ -30,14 +30,14 @@ const currentDeliveryId = "U-006";
 
 
 let products = [
-  { id: "P-101", name: "Bogura Potatoes",  farmerId: "U-002", farmer: "Rafiqul Islam", district: "Bogura",   category: "Vegetables",      price: 45,  unit: "kg",     stock: 320, image: "",                  rateName: "Potatoes",     description: "Fresh potatoes harvested from fields in Bogura." },
+  { id: "P-101", name: "Bogura Potatoes",  farmerId: "U-002", farmer: "Rafiqul Islam", district: "Bogura",   category: "Vegetables",      price: 45,  unit: "kg",     stock: 320, image: "images/potatoes.jpg", rateName: "Potatoes",     description: "Fresh potatoes harvested from fields in Bogura." },
   { id: "P-102", name: "Miniket Rice",     farmerId: "U-008", farmer: "Kamal Uddin",   district: "Rajshahi", category: "Rice and Pulses", price: 72,  unit: "kg",     stock: 500, image: "images/rice.jpg",   rateName: "Miniket Rice", description: "Clean, polished Miniket rice." },
   { id: "P-103", name: "Himsagar Mangoes", farmerId: "U-008", farmer: "Kamal Uddin",   district: "Rajshahi", category: "Fruit",           price: 140, unit: "kg",     stock: 90,  image: "images/mango.jpeg", rateName: "",             description: "Sweet Himsagar mangoes from Rajshahi." },
   { id: "P-104", name: "Farm Eggs",        farmerId: "U-008", farmer: "Kamal Uddin",   district: "Pabna",    category: "Eggs and Dairy",  price: 50,  unit: "4 eggs", stock: 200, image: "images/eggs.webp",  rateName: "",             description: "Brown farm eggs." },
-  { id: "P-105", name: "Local Onions",     farmerId: "U-002", farmer: "Rafiqul Islam", district: "Bogura",   category: "Vegetables",      price: 90,  unit: "kg",     stock: 140, image: "",                  rateName: "Onions",       description: "Local onions, dried and sorted." },
-  { id: "P-106", name: "Green Chilies",    farmerId: "U-002", farmer: "Rafiqul Islam", district: "Bogura",   category: "Spices",          price: 120, unit: "kg",     stock: 18,  image: "",                  rateName: "Chilies",      description: "Hot green chilies, picked this week." },
+  { id: "P-105", name: "Local Onions",     farmerId: "U-002", farmer: "Rafiqul Islam", district: "Bogura",   category: "Vegetables",      price: 90,  unit: "kg",     stock: 140, image: "images/onions.jpg", rateName: "Onions",       description: "Local onions, dried and sorted." },
+  { id: "P-106", name: "Green Chilies",    farmerId: "U-002", farmer: "Rafiqul Islam", district: "Bogura",   category: "Spices",          price: 120, unit: "kg",     stock: 18,  image: "images/chilies.jpg", rateName: "Chilies",      description: "Hot green chilies, picked this week." },
   { id: "P-107", name: "Mustard Oil",      farmerId: "U-008", farmer: "Kamal Uddin",   district: "Pabna",    category: "Spices",          price: 260, unit: "liter",  stock: 75,  image: "",                  rateName: "",             description: "Cold-pressed mustard oil." },
-  { id: "P-108", name: "Cow's Milk",       farmerId: "U-008", farmer: "Kamal Uddin",   district: "Pabna",    category: "Eggs and Dairy",  price: 90,  unit: "liter",  stock: 60,  image: "",                  rateName: "",             description: "Fresh milk, delivered every morning." },
+  { id: "P-108", name: "Cow's Milk",       farmerId: "U-008", farmer: "Kamal Uddin",   district: "Pabna",    category: "Eggs and Dairy",  price: 90,  unit: "liter",  stock: 60,  image: "images/milk.jpg", rateName: "",             description: "Fresh milk, delivered every morning." },
   { id: "P-109", name: "Fresh Tomatoes",   farmerId: "U-002", farmer: "Rafiqul Islam", district: "Bogura",   category: "Vegetables",      price: 50,  unit: "kg",     stock: 150, image: "images/tomato.webp",rateName: "Tomatoes",     description: "Red, firm tomatoes." }
 ];
 

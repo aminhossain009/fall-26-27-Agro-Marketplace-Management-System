@@ -617,3 +617,72 @@ input[type="submit"]:disabled {
 .cta-band .btn-light {
   background-color: white;
 }
+
+/* Login and register - Amin */
+.auth-box {
+  max-width: 480px;
+  margin: 30px auto;
+}
+
+.auth-box.wide {
+  max-width: 720px;
+}
+
+.auth-switch {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.demo-accounts {
+  font-size: 0.88rem;
+  margin: 8px 0;
+}
+
+.demo-accounts td {
+  padding: 3px 8px 3px 0;
+}
+
+/* Register: the rest of the form stays hidden until a type is chosen;
+   register.js sets style.display */
+.form-body,
+.type-fields {
+  display: none;
+}
+
+/* Three clickable cards for Customer / Farmer / Delivery Man */
+.type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.type-option {
+  display: block;
+  border: 2px solid #C8E6C9;
+  border-radius: 10px;
+  padding: 14px;
+  cursor: pointer;
+  font-weight: normal;
+  background-color: white;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+.type-option:hover {
+  border-color: #66BB6A;
+}
+
+.type-option strong {
+  font-size: 1.05rem;
+  color: #1B5E20;
+}
+
+.type-option .hint {
+  display: block;
+  margin-top: 4px;
+}
+
+/* Added by JavaScript to the chosen card */
+.type-option.selected {
+  border-color: #2E7D32;
+  background-color: #F1F8E9;
+}

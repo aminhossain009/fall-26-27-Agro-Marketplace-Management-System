@@ -676,3 +676,127 @@ function renderTracking() {
 
 // Connect this part's form and search box (addEventListener)
 document.getElementById("trackOrder").addEventListener("change", renderTracking);
+
+/* =====================================================================
+   6. REVIEW AND RATING  (unique feature 3)
+   ===================================================================== */
+
+// Only products from my DELIVERED orders that I have not reviewed yet
+function fillReviewProducts() {
+  let select = document.getElementById("reviewProduct");
+  select.innerHTML = "<option value=''>-- Select product --</option>";
+  let added = [];                        // ids already in the list
+
+  for (const order of orders) {
+    if (order.customerId === currentCustomerId && order.status === "Delivered") {
+      for (const item of order.items) {
+        if (added.indexOf(item.productId) === -1 && hasReviewed(item.productId) === false) {
+          let option = document.createElement("option");
+          option.value = item.productId;
+          option.innerHTML = item.name;
+          select.appendChild(option);
+          added.push(item.productId);
+        }
+      }
+    }
+  }
+}
+
+function hasReviewed(productId) {
+  for (const review of reviews) {
+    if (review.customerId === currentCustomerId && review.productId === productId) {
+      return true;
+    }
+  }
+  return false;
+}
+
+// 4 -> "★★★★☆" made with a loop
+function starText(rating) {
+  let stars = "";
+  for (let i = 1; i <= 5; i++) {
+    stars += (i <= rating) ? "★" : "☆";
+  }
+  return stars;
+}
+
+function renderReviews() {
+  let html = "";
+  let sum = 0;
+  for (let i = reviews.length - 1; i >= 0; i--) {
+    let review = reviews[i];
+    html += "<div class='review'><strong>" + review.product + "</strong> <span class='stars'>" + starText(review.rating) + "</span><br>" +
+      review.comment + "<br><span class='hint'>" + review.customer + " · " + review.date + "</span></div>";
+    sum += review.rating;
+  }
+  if (reviews.length === 0) {
+    html = "<p class='hint'>No reviews yet.</p>";
+  }
+  document.getElementById("reviewList").innerHTML = html;
+
+  // Average rounded to one decimal place
+  let average = (reviews.length === 0) ? 0 : Math.round(sum / reviews.length * 10) / 10;
+  document.getElementById("reviewAverage").innerHTML = average + " / 5";
+}
+
+function submitReview() {
+  let productId = document.getElementById("reviewProduct").value;
+  let rating = Number(document.getElementById("reviewRating").value);
+  let comment = document.getElementById("reviewComment").value.trim();
+
+  let isValid = true;
+  clearErrors(["reviewProduct", "reviewComment"]);
+
+  if (productId === "") {
+    showError("reviewProduct", "Please choose a product you received.");
+    isValid = false;
+  }
+  if (comment.length < 5) {
+    showError("reviewComment", "Please write at least 5 characters.");
+    isValid = false;
+  }
+  if (isValid === false) {
+    return false;
+  }
+
+  let product = findProduct(productId);
+  reviews.push({
+    productId: productId, product: product.name, customerId: currentCustomerId,
+    customer: findUser(currentCustomerId).name, rating: rating, comment: comment, date: todayString()
+  });
+
+  showMessage("reviewMessage", "Thank you! Your " + rating + "-star review of " + product.name + " was posted.", "success");
+  document.getElementById("reviewForm").reset();
+  refreshCustomerPage();
+  return false;
+}
+
+
+// Connect this part's form and search box (addEventListener)
+document.getElementById("reviewForm").addEventListener("submit", function (event) {
+  event.preventDefault();
+  submitReview();
+});
+
+
+/* =====================================================================
+   REDRAW EVERYTHING THAT DEPENDS ON THE DATA
+   ===================================================================== */
+function refreshCustomerPage() {
+  updateCustomerStats();
+  renderAddresses();
+  fillCheckoutAddresses();
+  renderShop();
+  renderCart();
+  renderPriceAlerts();
+  renderStockAlerts();
+  fillTrackOrders();
+  renderTracking();
+  fillReviewProducts();
+  renderReviews();
+}
+
+
+// Start
+fillAlertProducts();
+refreshCustomerPage();

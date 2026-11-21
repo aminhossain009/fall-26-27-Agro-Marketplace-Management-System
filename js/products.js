@@ -80,3 +80,5 @@ document.getElementById("catalogDistrict").addEventListener("change", renderProd
 fillDistrictList();
 document.getElementById("catalogSearch").value = readSearchWord();
 renderProductCards();
+
+// fixed bugs in js css

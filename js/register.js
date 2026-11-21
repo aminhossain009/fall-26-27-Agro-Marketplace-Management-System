@@ -325,3 +325,5 @@ document.getElementById("registerForm").addEventListener("submit", function (eve
     event.preventDefault();
   }
 });
+
+// fixed bugs in js css

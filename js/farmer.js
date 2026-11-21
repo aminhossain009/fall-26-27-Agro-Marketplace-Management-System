@@ -513,3 +513,5 @@ function refreshFarmerPage() {
 // Start
 fillCropList();
 refreshFarmerPage();
+
+// fixed bugs in js css

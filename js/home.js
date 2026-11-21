@@ -33,3 +33,5 @@ function renderPopular() {
 renderPopular();
 document.getElementById("catalogSearch").value = readSearchWord();
 renderCatalog();
+
+// fixed bugs in js css

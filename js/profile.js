@@ -131,3 +131,5 @@ document.getElementById("profileForm").addEventListener("submit", function (even
 
 // Start
 fillProfile();
+
+// fixed bugs in js css

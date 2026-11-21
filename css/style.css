@@ -975,3 +975,5 @@ input[type="submit"]:disabled {
     min-width: 100%;
   }
 }
+
+/* fixed bugs in js css */

@@ -103,3 +103,5 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
 document.getElementById("showPassword").addEventListener("change", function () {
   togglePassword("showPassword", "password");
 });
+
+// fixed bugs in js css

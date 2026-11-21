@@ -182,3 +182,5 @@ let deliveryEarnings = [
   { date: "2026-10-31", deliveries: 7 },
   { date: "2026-11-01", deliveries: 5 }
 ];
+
+// fixed bugs in js css

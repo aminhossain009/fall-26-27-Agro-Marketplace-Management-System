@@ -413,3 +413,5 @@ function togglePassword(checkboxId, inputId) {
 // Runs on every page that loads common.js
 setupSections();
 setupCatalog();
+
+// fixed bugs in js css

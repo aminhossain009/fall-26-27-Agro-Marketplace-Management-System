@@ -812,3 +812,4 @@ function refreshCustomerPage() {
 // Start
 fillAlertProducts();
 refreshCustomerPage();
+// fixed bugs in js css

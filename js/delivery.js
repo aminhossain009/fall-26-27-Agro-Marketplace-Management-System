@@ -406,3 +406,5 @@ function refreshDeliveryPage() {
 
 // Start
 refreshDeliveryPage();
+
+// fixed bugs in js css

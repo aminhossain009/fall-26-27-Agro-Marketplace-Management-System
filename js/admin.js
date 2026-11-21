@@ -482,3 +482,5 @@ function refreshAdminPage() {
 
 // Start
 refreshAdminPage();
+
+// fixed bugs in js css

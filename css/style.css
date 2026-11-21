@@ -705,3 +705,19 @@ input[type="submit"]:disabled {
   margin: 0 6px;
   color: white;
 }
+
+/* Small screens - Amin */
+@media (max-width: 600px) {
+  .hero h1 {
+    font-size: 1.7rem;
+  }
+  .form-table td {
+    display: block;
+    width: 100% !important;
+    padding-top: 4px !important;
+  }
+  .col,
+  .col-wide {
+    min-width: 100%;
+  }
+}

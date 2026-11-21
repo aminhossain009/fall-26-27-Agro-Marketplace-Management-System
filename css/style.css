@@ -1,7 +1,6 @@
+/* 1. RESET AND PAGE DEFAULTS   */
 
-  /* 1. RESET AND PAGE DEFAULTS   */
-  
-   
+
 * {
   margin: 0;
   padding: 0;
@@ -16,7 +15,9 @@ body {
   background-color: #F4F8F1;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   line-height: 1.3;
   color: #1B5E20;
 }
@@ -35,7 +36,8 @@ a:hover {
   background-color: #2E7D32;
   color: white;
   padding: 14px 24px;
-  display: flex;                  /* Flexbox: logo left, user info right */
+  display: flex;
+  /* Flexbox: logo left, user info right */
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
@@ -51,7 +53,8 @@ a:hover {
 }
 
 .logo span {
-  color: #FBC02D;                 /* "Mart" in yellow */
+  color: #FBC02D;
+  /* "Mart" in yellow */
 }
 
 .logo:hover {
@@ -73,7 +76,7 @@ a:hover {
   z-index: 10;
   background-color: #FBC02D;
   padding: 0 16px;
-  overflow-x: auto;               
+  overflow-x: auto;
   white-space: nowrap;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
@@ -168,107 +171,259 @@ a:hover {
   color: #777777;
 }
 
+fieldset {
+  border: 1px solid #C8E6C9;
+  border-radius: 8px;
+  padding: 12px 16px 16px 16px;
+  margin-bottom: 16px;
+}
 
-/* Home page - Amin */
-.hero {
+legend {
+  font-weight: bold;
+  color: #2E7D32;
+  padding: 0 8px;
+}
+
+.form-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.form-table td {
+  padding: 6px 4px;
+  vertical-align: top;
+}
+
+.form-table td:first-child {
+  width: 35%;
+  padding-top: 12px;
+}
+
+label {
+  font-weight: 600;
+  color: #444444;
+}
+
+/* The labels next to radio buttons and checkboxes are normal weight */
+.option-label {
+  font-weight: normal;
+  margin-right: 12px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+input[type="tel"],
+select,
+textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #C5D3C0;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  background-color: white;
+}
+
+/* :focus keeps the selected field clearly visible for keyboard users */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid #66BB6A;
+  border-color: #66BB6A;
+}
+
+textarea {
+  resize: none;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  margin-right: 4px;
+  accent-color: #2E7D32;
+}
+
+/* Red error text shown next to a field by JavaScript validation */
+.error {
+  display: block;
+  color: #C62828;
+  font-size: 0.85rem;
+  min-height: 1em;
+}
+
+.form-buttons {
+  margin-top: 8px;
+}
+
+/* Small number box inside the cart table */
+.qty-input {
+  width: 70px !important;
+  padding: 4px 6px !important;
+}
+
+
+
+.btn,
+input[type="submit"],
+button {
+  display: inline-block;
+  background-color: #2E7D32;
+  color: white;
+  border: none;
+  padding: 9px 20px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.btn:hover,
+input[type="submit"]:hover,
+button:hover {
   background-color: #1B5E20;
   color: white;
-  text-align: center;
-  padding: 70px 20px;
 }
 
-.hero h1 {
-  color: white;
-  font-size: 2.4rem;
-  margin-bottom: 10px;
+.btn:focus {
+  outline: 3px solid #FBC02D;
 }
 
-.hero p {
-  font-size: 1.15rem;
-  color: #DCEDC8;
+.btn:disabled,
+input[type="submit"]:disabled {
+  background-color: #BBBBBB;
+  cursor: not-allowed;
 }
 
-/* The search box inside the hero */
-.hero-search {
-  max-width: 600px;
-  margin: 26px auto 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.hero-search input[type="text"] {
-  flex: 3;
-  min-width: 220px;
-  padding: 13px 16px;
-  font-size: 1rem;
-  border: none;
-}
-
-.hero-search .btn {
-  flex: 1;
+/* Yellow buttons keep dark green text */
+.btn-light,
+.btn-secondary {
   background-color: #FBC02D;
   color: #1B5E20;
-  font-weight: bold;
 }
 
-.home-section {
-  padding: 40px 0 10px 0;
+.btn-light:hover,
+.btn-secondary:hover {
+  background-color: #F9A825;
+  color: #1B5E20;
 }
 
-.section-heading {
-  text-align: center;
-  margin: 10px 0 24px 0;
+.btn-success {
+  background-color: #388E3C;
 }
 
-.section-heading p {
-  color: #666666;
-  font-weight: normal;
-  font-size: 1rem;
-  margin-top: 6px;
+.btn-danger {
+  background-color: #C62828;
 }
 
-/* Product cards (home page and products page) */
-.product-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-  gap: 20px;
-  margin-bottom: 20px;
+.btn-danger:hover {
+  background-color: #E53935;
 }
 
-.product {
-  background-color: white;
-  border-radius: 12px;
-  padding: 14px;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s, box-shadow 0.3s;
+.btn-small {
+  padding: 4px 12px;
+  font-size: 0.85rem;
 }
 
-.product:hover {
-  transform: scale(1.03);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-}
-
-.product-image {
+.btn-block {
   width: 100%;
-  height: 150px;
-  object-fit: cover;
+  padding: 11px;
+  font-size: 1rem;
+}
+
+
+
+
+/* ---------------------------------------------------------------------
+   4. FORMS
+   <fieldset>, <legend> and a <table> to line up labels and fields
+   --------------------------------------------------------------------- */
+fieldset {
+  border: 1px solid #C8E6C9;
   border-radius: 8px;
-  margin-bottom: 8px;
+  padding: 12px 16px 16px 16px;
+  margin-bottom: 16px;
 }
 
-.product .name {
-  font-size: 1.05rem;
-}
-
-.product .price {
-  color: #2E7D32;
+legend {
   font-weight: bold;
-  margin-bottom: 4px;
+  color: #2E7D32;
+  padding: 0 8px;
 }
 
-.product .btn {
+.form-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.form-table td {
+  padding: 6px 4px;
+  vertical-align: top;
+}
+
+.form-table td:first-child {
+  width: 35%;
+  padding-top: 12px;
+}
+
+label {
+  font-weight: 600;
+  color: #444444;
+}
+
+/* The labels next to radio buttons and checkboxes are normal weight */
+.option-label {
+  font-weight: normal;
+  margin-right: 12px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+input[type="tel"],
+select,
+textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #C5D3C0;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  background-color: white;
+}
+
+/* :focus keeps the selected field clearly visible for keyboard users */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid #66BB6A;
+  border-color: #66BB6A;
+}
+
+textarea {
+  resize: none;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  margin-right: 4px;
+  accent-color: #2E7D32;
+}
+
+/* Red error text shown next to a field by JavaScript validation */
+.error {
+  display: block;
+  color: #C62828;
+  font-size: 0.85rem;
+  min-height: 1em;
+}
+
+.form-buttons {
   margin-top: 8px;
 }
 
@@ -351,4 +506,84 @@ a:hover {
   color: white;
   font-weight: bold;
   margin-bottom: 8px;
+}
+
+/* Small number box inside the cart table */
+.qty-input {
+  width: 70px !important;
+  padding: 4px 6px !important;
+}
+
+
+/* ---------------------------------------------------------------------
+   5. BUTTONS
+   :hover with a transition (Lecture 02: Hover effects and transitions)
+   --------------------------------------------------------------------- */
+.btn,
+input[type="submit"],
+button {
+  display: inline-block;
+  background-color: #2E7D32;
+  color: white;
+  border: none;
+  padding: 9px 20px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.btn:hover,
+input[type="submit"]:hover,
+button:hover {
+  background-color: #1B5E20;
+  color: white;
+}
+
+.btn:focus {
+  outline: 3px solid #FBC02D;
+}
+
+.btn:disabled,
+input[type="submit"]:disabled {
+  background-color: #BBBBBB;
+  cursor: not-allowed;
+}
+
+/* Yellow buttons keep dark green text */
+.btn-light,
+.btn-secondary {
+  background-color: #FBC02D;
+  color: #1B5E20;
+}
+
+.btn-light:hover,
+.btn-secondary:hover {
+  background-color: #F9A825;
+  color: #1B5E20;
+}
+
+.btn-success {
+  background-color: #388E3C;
+}
+
+.btn-danger {
+  background-color: #C62828;
+}
+
+.btn-danger:hover {
+  background-color: #E53935;
+}
+
+.btn-small {
+  padding: 4px 12px;
+  font-size: 0.85rem;
+}
+
+.btn-block {
+  width: 100%;
+  padding: 11px;
+  font-size: 1rem;
 }

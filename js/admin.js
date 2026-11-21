@@ -211,3 +211,265 @@ document.getElementById("userForm").addEventListener("submit", function (event) 
 document.querySelector("#userForm .btn-secondary").addEventListener("click", resetUserForm);
 document.getElementById("userSearch").addEventListener("keyup", renderUsers);
 document.getElementById("userRoleFilter").addEventListener("change", renderUsers);
+
+
+// Part 2: approval / ban + market prices + sales report
+
+// User approval / ban: show list
+function renderApproval() {
+  let filter = document.getElementById("approvalFilter").value;
+  let rows = "";
+
+  for (let i = 0; i < users.length; i++) {
+    let user = users[i];
+    if (filter !== "All" && user.status !== filter) {
+      continue;
+    }
+
+    // Buttons depend on the status
+    let buttons = "";
+    switch (user.status) {
+      case "Pending":
+        buttons = "<button type='button' class='btn btn-small btn-success' onclick='approveUser(" + i + ")'>Approve</button>" +
+                  "<button type='button' class='btn btn-small btn-danger' onclick='rejectUser(" + i + ")'>Reject</button>";
+        break;
+      case "Active":
+        buttons = (user.id === currentAdminId) ? "<span class='hint'>You</span>"
+                : "<button type='button' class='btn btn-small btn-danger' onclick='banUser(" + i + ")'>Ban</button>";
+        break;
+      case "Banned":
+        buttons = "<button type='button' class='btn btn-small btn-success' onclick='unbanUser(" + i + ")'>Unban</button>";
+        break;
+    }
+
+    rows += "<tr>" +
+              "<td>" + user.id + "</td>" +
+              "<td>" + user.name + "</td>" +
+              "<td><span class='badge " + roleClass(user.role) + "'>" + user.role + "</span></td>" +
+              "<td>" + user.district + "</td>" +
+              "<td>" + statusBadge(user.status) + "</td>" +
+              "<td>" + buttons + "</td>" +
+            "</tr>";
+  }
+
+  if (rows === "") {
+    rows = "<tr><td colspan='6' class='empty-row'>No accounts in this list.</td></tr>";
+  }
+  document.getElementById("approvalBody").innerHTML = rows;
+
+  // Recent actions board
+  let board = "";
+  for (const entry of moderationLog) {
+    board += "<div class='log-item'><span class='log-time'>" + entry.time + "</span><br>" + entry.message + "</div>";
+  }
+  document.getElementById("moderationBoard").innerHTML = board;
+}
+
+function approveUser(index) {
+  users[index].status = "Active";
+  addModerationLog("Approved " + users[index].role.toLowerCase() + " " + users[index].name);
+  showMessage("approvalMessage", users[index].name + " can now log in.", "success");
+  refreshAdminPage();
+}
+
+function rejectUser(index) {
+  let user = users[index];
+  if (confirm("Reject and remove " + user.name + "?") === false) {
+    return;
+  }
+  users = removeAt(users, index);
+  addModerationLog("Rejected registration of " + user.name);
+  showMessage("approvalMessage", user.name + "'s registration was rejected.", "info");
+  refreshAdminPage();
+}
+
+function banUser(index) {
+  users[index].status = "Banned";
+  addModerationLog("Banned " + users[index].name);
+  showMessage("approvalMessage", users[index].name + " is banned and cannot log in.", "error");
+  refreshAdminPage();
+}
+
+function unbanUser(index) {
+  users[index].status = "Active";
+  addModerationLog("Unbanned " + users[index].name);
+  showMessage("approvalMessage", users[index].name + " can log in again.", "success");
+  refreshAdminPage();
+}
+
+document.getElementById("approvalFilter").addEventListener("change", renderApproval);
+
+
+// Market prices
+function renderRates() {
+  let rows = "";
+  for (let i = 0; i < marketRates.length; i++) {
+    let rate = marketRates[i];
+    let colour;
+    switch (rate.trend) {
+      case "Up":   colour = "red";   break;
+      case "Down": colour = "green"; break;
+      default:     colour = "grey";
+    }
+    rows += "<tr>" +
+              "<td><strong>" + rate.name + "</strong></td>" +
+              "<td>Tk " + rate.min + "</td>" +
+              "<td>Tk " + rate.max + "</td>" +
+              "<td><span class='badge " + colour + "'>" + rate.trend + "</span></td>" +
+              "<td>" +
+                "<button type='button' class='btn btn-small' onclick='changeRate(" + i + ")'>Change</button>" +
+                "<button type='button' class='btn btn-small btn-danger' onclick='removeRate(" + i + ")'>Remove</button>" +
+              "</td>" +
+            "</tr>";
+  }
+  if (rows === "") {
+    rows = "<tr><td colspan='5' class='empty-row'>No prices set today.</td></tr>";
+  }
+  document.getElementById("rateBody").innerHTML = rows;
+}
+
+function findRateIndex(name) {
+  for (let i = 0; i < marketRates.length; i++) {
+    if (marketRates[i].name.toLowerCase() === name.toLowerCase()) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+// Add a price or change an existing one (the trend is worked out)
+function saveRate() {
+  let name = document.getElementById("rateProduct").value.trim();
+  let min = document.getElementById("rateMin").value;
+  let max = document.getElementById("rateMax").value;
+
+  let isValid = true;
+  clearErrors(["rateProduct", "rateMin", "rateMax"]);
+
+  if (name.length < 2) {
+    showError("rateProduct", "Please enter the product name.");
+    isValid = false;
+  }
+  if (min === "" || Number(min) < 1) {
+    showError("rateMin", "Minimum must be at least Tk 1.");
+    isValid = false;
+  }
+  if (max === "" || Number(max) < 1) {
+    showError("rateMax", "Maximum must be at least Tk 1.");
+    isValid = false;
+  } else if (Number(max) < Number(min)) {
+    showError("rateMax", "Maximum cannot be lower than the minimum.");
+    isValid = false;
+  }
+  if (isValid === false) {
+    return false;
+  }
+
+  let index = (editRateIndex !== -1) ? editRateIndex : findRateIndex(name);
+  if (index === -1) {
+    marketRates.push({ name: name, min: Number(min), max: Number(max), trend: "Same" });
+    showMessage("rateMessage", "Price for <strong>" + name + "</strong> added.", "success");
+  } else {
+    let rate = marketRates[index];
+    let oldMiddle = (rate.min + rate.max) / 2;
+    let newMiddle = (Number(min) + Number(max)) / 2;
+    rate.trend = (newMiddle > oldMiddle) ? "Up" : (newMiddle < oldMiddle) ? "Down" : "Same";
+    rate.name = name;
+    rate.min = Number(min);
+    rate.max = Number(max);
+    showMessage("rateMessage", "Price for <strong>" + name + "</strong> changed (" + rate.trend + ").", "success");
+  }
+
+  document.getElementById("rateForm").reset();
+  editRateIndex = -1;
+  refreshAdminPage();
+  return false;
+}
+
+function changeRate(index) {
+  let rate = marketRates[index];
+  editRateIndex = index;
+  document.getElementById("rateProduct").value = rate.name;
+  document.getElementById("rateMin").value = rate.min;
+  document.getElementById("rateMax").value = rate.max;
+  document.getElementById("rateMin").focus();
+}
+
+function removeRate(index) {
+  let rate = marketRates[index];
+  marketRates = removeAt(marketRates, index);
+  editRateIndex = -1;
+  showMessage("rateMessage", "Price for " + rate.name + " removed.", "info");
+  refreshAdminPage();
+}
+
+document.getElementById("rateForm").addEventListener("submit", function (event) {
+  event.preventDefault();
+  saveRate();
+});
+
+
+// Sales report
+function renderSales() {
+  let rows = "";
+  let totalSales = 0;
+  let totalOrders = 0;
+  let best = monthlySales[0];
+
+  for (const month of monthlySales) {
+    let average = Math.round(month.sales / month.orders);
+    rows += "<tr><td>" + month.month + "</td><td>" + month.orders + "</td><td>" + formatTaka(month.sales) +
+            "</td><td>" + formatTaka(average) + "</td></tr>";
+    totalSales += month.sales;
+    totalOrders += month.orders;
+    if (month.sales > best.sales) {
+      best = month;
+    }
+  }
+
+  // This month so far (order dates start with "YYYY-MM")
+  let thisMonth = todayString().slice(0, 7);
+  let monthOrders = 0;
+  let monthSales = 0;
+  for (const order of orders) {
+    if (order.date.slice(0, 7) === thisMonth) {
+      monthOrders++;
+      for (const item of order.items) {
+        monthSales += item.price * item.qty;
+      }
+    }
+  }
+  rows += "<tr><td><strong>This month so far</strong></td><td>" + monthOrders + "</td><td>" + formatTaka(monthSales) + "</td><td>-</td></tr>";
+
+  document.getElementById("salesBody").innerHTML = rows;
+  document.getElementById("salesTotal").innerHTML = formatTaka(totalSales);
+  document.getElementById("salesOrders").innerHTML = totalOrders;
+  document.getElementById("salesBest").innerHTML = best.month;
+
+  // Bar chart (width = share of the best month)
+  let chart = document.getElementById("salesChart");
+  chart.innerHTML = "";
+  for (const month of monthlySales) {
+    let row = document.createElement("div");
+    row.className = "bar-row";
+    row.innerHTML = "<div class='bar-label'>" + month.month + "</div>" +
+                    "<div class='bar-track'><div class='bar-fill'></div></div>" +
+                    "<div class='bar-value'>" + Math.round(month.sales / 1000) + "k</div>";
+    chart.appendChild(row);
+    row.getElementsByClassName("bar-fill")[0].style.width = Math.round(month.sales / best.sales * 100) + "%";
+  }
+}
+
+
+// Redraw everything
+function refreshAdminPage() {
+  updateAdminStats();
+  renderUsers();
+  renderApproval();
+  renderRates();
+  renderSales();
+}
+
+
+// Start
+refreshAdminPage();

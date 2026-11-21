@@ -333,3 +333,176 @@ input[type="submit"]:disabled {
   padding: 11px;
   font-size: 1rem;
 }
+
+
+
+
+/* ---------------------------------------------------------------------
+   4. FORMS
+   <fieldset>, <legend> and a <table> to line up labels and fields
+   --------------------------------------------------------------------- */
+fieldset {
+  border: 1px solid #C8E6C9;
+  border-radius: 8px;
+  padding: 12px 16px 16px 16px;
+  margin-bottom: 16px;
+}
+
+legend {
+  font-weight: bold;
+  color: #2E7D32;
+  padding: 0 8px;
+}
+
+.form-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.form-table td {
+  padding: 6px 4px;
+  vertical-align: top;
+}
+
+.form-table td:first-child {
+  width: 35%;
+  padding-top: 12px;
+}
+
+label {
+  font-weight: 600;
+  color: #444444;
+}
+
+/* The labels next to radio buttons and checkboxes are normal weight */
+.option-label {
+  font-weight: normal;
+  margin-right: 12px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+input[type="tel"],
+select,
+textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #C5D3C0;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  background-color: white;
+}
+
+/* :focus keeps the selected field clearly visible for keyboard users */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid #66BB6A;
+  border-color: #66BB6A;
+}
+
+textarea {
+  resize: none;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  margin-right: 4px;
+  accent-color: #2E7D32;
+}
+
+/* Red error text shown next to a field by JavaScript validation */
+.error {
+  display: block;
+  color: #C62828;
+  font-size: 0.85rem;
+  min-height: 1em;
+}
+
+.form-buttons {
+  margin-top: 8px;
+}
+
+/* Small number box inside the cart table */
+.qty-input {
+  width: 70px !important;
+  padding: 4px 6px !important;
+}
+
+
+/* ---------------------------------------------------------------------
+   5. BUTTONS
+   :hover with a transition (Lecture 02: Hover effects and transitions)
+   --------------------------------------------------------------------- */
+.btn,
+input[type="submit"],
+button {
+  display: inline-block;
+  background-color: #2E7D32;
+  color: white;
+  border: none;
+  padding: 9px 20px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.btn:hover,
+input[type="submit"]:hover,
+button:hover {
+  background-color: #1B5E20;
+  color: white;
+}
+
+.btn:focus {
+  outline: 3px solid #FBC02D;
+}
+
+.btn:disabled,
+input[type="submit"]:disabled {
+  background-color: #BBBBBB;
+  cursor: not-allowed;
+}
+
+/* Yellow buttons keep dark green text */
+.btn-light,
+.btn-secondary {
+  background-color: #FBC02D;
+  color: #1B5E20;
+}
+
+.btn-light:hover,
+.btn-secondary:hover {
+  background-color: #F9A825;
+  color: #1B5E20;
+}
+
+.btn-success {
+  background-color: #388E3C;
+}
+
+.btn-danger {
+  background-color: #C62828;
+}
+
+.btn-danger:hover {
+  background-color: #E53935;
+}
+
+.btn-small {
+  padding: 4px 12px;
+  font-size: 0.85rem;
+}
+
+.btn-block {
+  width: 100%;
+  padding: 11px;
+  font-size: 1rem;
+}

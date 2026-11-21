@@ -271,3 +271,84 @@ a:hover {
 .product .btn {
   margin-top: 8px;
 }
+
+/* "Why Agro Mart" strip */
+.feature-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.feature {
+  text-align: center;
+}
+
+.feature .feature-icon {
+  display: inline-block;
+  width: 52px;
+  height: 52px;
+  line-height: 52px;
+  border-radius: 50%;
+  background-color: #FFF8E1;
+  color: #1B5E20;
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+/* Four role cards */
+.role-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.role-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 22px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-top: 6px solid #2E7D32;
+  transition: transform 0.3s;
+}
+
+.role-card:hover {
+  transform: scale(1.03);
+}
+
+.role-card.customer { border-top-color: #1565C0; }
+.role-card.farmer   { border-top-color: #2E7D32; }
+.role-card.delivery { border-top-color: #EF6C00; }
+.role-card.admin    { border-top-color: #C62828; }
+
+.role-card ul {
+  margin: 10px 0 14px 20px;
+  font-size: 0.92rem;
+}
+
+/* How it works: numbered steps */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.step {
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.step-number {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  background-color: #2E7D32;
+  color: white;
+  font-weight: bold;
+  margin-bottom: 8px;
+}

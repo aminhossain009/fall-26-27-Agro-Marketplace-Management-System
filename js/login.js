@@ -67,16 +67,16 @@ function validateLogin() {
   let form = document.getElementById("loginForm");
   switch (foundUser.role) {
     case "Admin":
-      form.action = "admin.html";
+      form.action = "admin-dashboard.html";
       break;
     case "Farmer":
-      form.action = "farmer.html";
+      form.action = "farmer-dashboard.html";
       break;
     case "Customer":
-      form.action = "customer.html";
+      form.action = "customer-dashboard.html";
       break;
     case "Delivery":
-      form.action = "delivery.html";
+      form.action = "delivery-dashboard.html";
       break;
   }
 

@@ -282,9 +282,9 @@ function renderCart() {
 
 function changeQty(index, value) {
   let product = findProduct(cart[index].productId);
-  let qty = Number(value);
+  let qty = Math.floor(Number(value));      // whole units only
 
-  if (qty < 1) {
+  if (isNaN(qty) || qty < 1) {
     qty = 1;
   }
   if (qty > product.stock) {
@@ -329,6 +329,17 @@ function placeOrder() {
   if (addressId === "") {
     showError("checkoutAddress", "Please choose where to deliver.");
     return false;
+  }
+
+  // Check the stock again before anything is taken out
+  for (const line of cart) {
+    let product = findProduct(line.productId);
+    if (product == null || line.qty > product.stock) {
+      let name = (product == null) ? "A product" : product.name;
+      let left = (product == null) ? 0 : product.stock;
+      showMessage("cartMessage", name + " has only " + left + " in stock. Please change the quantity.", "error");
+      return false;
+    }
   }
 
   // Build the list of items and take them out of stock
@@ -667,10 +678,11 @@ function renderTracking() {
 
   let paidText = order.paid ? "(paid)" : "(to pay)";
   let driver = findUser(order.deliveryId);
+  let driverText = (driver == null) ? "Not assigned yet" : driver.name + " (" + driver.phone + ")";
   document.getElementById("trackInfo").innerHTML =
     "<strong>Total:</strong> " + formatTaka(total) + " · " + order.payment + " " + paidText + "<br>" +
     "<strong>Deliver to:</strong> " + order.address + "<br>" +
-    "<strong>Delivery person:</strong> " + driver.name + " (" + driver.phone + ")";
+    "<strong>Delivery person:</strong> " + driverText;
 }
 
 

@@ -159,13 +159,14 @@ function validateRegister() {
   }
   text += "<br><span class='hint'>Frontend version: the account is kept until this page reloads. " +
           "The PHP backend will save it permanently.</span>";
-  showMessage("registerMessage", text, "success");
-
-  // Empty the form and go back to step 1
+  // Empty the form and go back to step 1.
+  // showTypeFields() hides the message box, so the message is shown AFTER it.
   document.getElementById("registerForm").reset();
   showTypeFields();
   document.getElementById("registerButton").disabled = true;
+  document.getElementById("registerButton").value = "Create Account";
   document.getElementById("strengthText").innerHTML = "";
+  showMessage("registerMessage", text, "success");
   return false;   // stay on this page so the message can be read
 }
 

@@ -376,7 +376,32 @@ function setupCatalog() {
 }
 
 
-/* 
+/*
+   9b. READ THE SEARCH WORD FROM THE URL
+   The hero search sends the word in the URL: products.html?q=rice
+   location.search gives "?q=rice"; we take the text after "q=".
+*/
+function readSearchWord() {
+  let query = window.location.search;
+  let position = query.indexOf("q=");
+  if (position === -1) {
+    return "";
+  }
+  let word = query.slice(position + 2);
+  let end = word.indexOf("&");
+  if (end !== -1) {
+    word = word.slice(0, end);
+  }
+  // "+" means a space in a URL; decodeURIComponent turns %20 etc. back into letters
+  try {
+    return decodeURIComponent(word.split("+").join(" "));
+  } catch (error) {
+    return "";                    // a broken "%" in the URL
+  }
+}
+
+
+/*
    10. "SHOW PASSWORD" CHECKBOX (login page)
     */
 function togglePassword(checkboxId, inputId) {

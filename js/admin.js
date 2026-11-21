@@ -126,6 +126,9 @@ function saveUser() {
   if (role === "") {
     showError("userRole", "Please choose a role.");
     isValid = false;
+  } else if (editUserIndex !== -1 && users[editUserIndex].id === currentAdminId && role !== "Admin") {
+    showError("userRole", "You cannot remove the Admin role from your own account.");
+    isValid = false;
   }
   if (isValid === false) {
     return false;
@@ -361,11 +364,17 @@ function saveRate() {
     showError("rateMax", "Maximum cannot be lower than the minimum.");
     isValid = false;
   }
+  // Two prices with the same product name are not allowed
+  let sameName = findRateIndex(name);
+  if (name.length >= 2 && editRateIndex !== -1 && sameName !== -1 && sameName !== editRateIndex) {
+    showError("rateProduct", "There is already a price for " + marketRates[sameName].name + ".");
+    isValid = false;
+  }
   if (isValid === false) {
     return false;
   }
 
-  let index = (editRateIndex !== -1) ? editRateIndex : findRateIndex(name);
+  let index = (editRateIndex !== -1) ? editRateIndex : sameName;
   if (index === -1) {
     marketRates.push({ name: name, min: Number(min), max: Number(max), trend: "Same" });
     showMessage("rateMessage", "Price for <strong>" + name + "</strong> added.", "success");

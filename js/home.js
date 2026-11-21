@@ -26,22 +26,7 @@ function renderPopular() {
 }
 
 
-// The hero search sends the word in the URL: index.html?q=rice#search
-// location.search gives "?q=rice"; we take the text after "q=".
-function readSearchWord() {
-  let query = window.location.search;
-  let position = query.indexOf("q=");
-  if (position === -1) {
-    return "";
-  }
-  let word = query.slice(position + 2);
-  let end = word.indexOf("&");
-  if (end !== -1) {
-    word = word.slice(0, end);
-  }
-  // "+" means a space in a URL; decodeURIComponent turns %20 etc. back into letters
-  return decodeURIComponent(word.split("+").join(" "));
-}
+// readSearchWord() is in common.js (products.html uses it too)
 
 
 // Start

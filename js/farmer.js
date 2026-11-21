@@ -115,6 +115,17 @@ function renderProducts() {
   document.getElementById("productCount").innerHTML = shown + " product(s)";
 }
 
+// The market price whose name is inside the product name,
+// e.g. "Fresh Potatoes" -> "Potatoes" (or "" when none matches)
+function matchRateName(productName) {
+  for (const rate of marketRates) {
+    if (containsText(productName, rate.name)) {
+      return rate.name;
+    }
+  }
+  return "";
+}
+
 // CREATE + UPDATE: the form's submit
 function saveProduct() {
   let name = document.getElementById("productName").value.trim();
@@ -161,7 +172,7 @@ function saveProduct() {
       unit: unit,
       stock: Number(stock),
       image: "",
-      rateName: "",
+      rateName: matchRateName(name),
       description: (description === "") ? "No description yet." : description
     };
     products.push(newProduct);
@@ -170,6 +181,9 @@ function saveProduct() {
     // UPDATE: change the properties of the object that is being edited
     let product = products[editProductIndex];
     product.name = name;
+    if (product.rateName === "" || product.rateName == null) {
+      product.rateName = matchRateName(name);
+    }
     product.category = category;
     product.price = Number(price);
     product.unit = unit;

@@ -377,3 +377,302 @@ document.getElementById("checkoutForm").addEventListener("submit", function (eve
   event.preventDefault();
   placeOrder();
 });
+
+/* #####################################################################
+   Price Drop Alerts + Back-in-Stock Alerts
+   ##################################################################### */
+
+
+/* =====================================================================
+   3. PRICE DROP ALERTS
+   ===================================================================== */
+function fillAlertProducts() {
+  let select = document.getElementById("priceAlertProduct");
+  select.innerHTML = "<option value=''>-- Select product --</option>";
+  for (const product of products) {
+    let option = document.createElement("option");
+    option.value = product.id;
+    option.innerHTML = product.name + " (Tk " + product.price + " / " + product.unit + ")";
+    select.appendChild(option);
+  }
+}
+
+function renderPriceAlerts() {
+  let rows = "";
+  let count = 0;
+
+  for (let i = 0; i < priceAlerts.length; i++) {
+    let alert = priceAlerts[i];
+    if (alert.customerId !== currentCustomerId) {
+      continue;
+    }
+    let product = findProduct(alert.productId);
+    let status;
+    let buttons;
+
+    if (product.price <= alert.target) {
+      status = "<span class='badge green'>Price dropped</span>";
+      buttons = "<button type='button' class='btn btn-small' onclick=\"addToCart('" + product.id + "')\">Add to Cart</button>";
+    } else {
+      status = "<span class='badge blue'>Watching</span>";
+      buttons = "<button type='button' class='btn btn-small' onclick='editPriceAlert(" + i + ")'>Edit</button>";
+    }
+    buttons += "<button type='button' class='btn btn-small btn-danger' onclick='deletePriceAlert(" + i + ")'>Delete</button>";
+
+    rows += "<tr>" +
+      "<td><strong>" + product.name + "</strong><br><span class='hint'>" + product.district + "</span></td>" +
+      "<td>Tk " + product.price + " / " + product.unit + "</td>" +
+      "<td>Tk " + alert.target + "</td>" +
+      "<td>" + status + "</td>" +
+      "<td>" + buttons + "</td>" +
+      "</tr>";
+    count++;
+  }
+
+  if (count === 0) {
+    rows = "<tr><td colspan='5' class='empty-row'>No price alerts yet.</td></tr>";
+  }
+  document.getElementById("priceAlertBody").innerHTML = rows;
+  document.getElementById("priceAlertCount").innerHTML = count + " alert(s)";
+
+  // Notifications: newest first
+  let html = "";
+  for (const note of priceNotifications) {
+    html += "<div class='review'>" + note.text + "<br><span class='hint'>" + note.time + " · " + note.via + "</span></div>";
+  }
+  document.getElementById("priceAlertNotifications").innerHTML = (html === "") ? "<p class='hint'>No notifications yet.</p>" : html;
+}
+
+function savePriceAlert() {
+  let productId = document.getElementById("priceAlertProduct").value;
+  let target = document.getElementById("priceAlertTarget").value;
+
+  // The ticked checkboxes go into an array with push()
+  let notifyBy = [];
+  if (document.getElementById("priceNotifyApp").checked) { notifyBy.push("In-app"); }
+  if (document.getElementById("priceNotifySms").checked) { notifyBy.push("SMS"); }
+  if (document.getElementById("priceNotifyEmail").checked) { notifyBy.push("Email"); }
+
+  let isValid = true;
+  clearErrors(["priceAlertProduct", "priceAlertTarget"]);
+
+  if (productId === "") {
+    showError("priceAlertProduct", "Please choose a product.");
+    isValid = false;
+  }
+  if (target === "" || Number(target) < 1) {
+    showError("priceAlertTarget", "Please enter a target price.");
+    isValid = false;
+  } else if (productId !== "" && Number(target) >= findProduct(productId).price) {
+    showError("priceAlertTarget", "The target must be lower than today's price (Tk " + findProduct(productId).price + ").");
+    isValid = false;
+  }
+  if (notifyBy.length === 0) {
+    showMessage("priceAlertMessage", "Tick at least one way to notify you.", "error");
+    isValid = false;
+  }
+  if (isValid === false) {
+    return false;
+  }
+
+  let product = findProduct(productId);
+  if (editPriceAlertIndex === -1) {
+    priceAlerts.push({
+      id: nextId("PA", priceAlerts), customerId: currentCustomerId, productId: productId,
+      target: Number(target), notifyBy: notifyBy
+    });
+    showMessage("priceAlertMessage", "We will tell you by " + notifyBy.join(", ") + " when " + product.name +
+      " is Tk " + target + " or less.", "success");
+  } else {
+    let alert = priceAlerts[editPriceAlertIndex];
+    alert.productId = productId;
+    alert.target = Number(target);
+    alert.notifyBy = notifyBy;
+    showMessage("priceAlertMessage", "Alert for " + product.name + " updated.", "success");
+  }
+
+  resetPriceAlertForm();
+  refreshCustomerPage();
+  return false;
+}
+
+function editPriceAlert(index) {
+  let alert = priceAlerts[index];
+  editPriceAlertIndex = index;
+  document.getElementById("priceAlertProduct").value = alert.productId;
+  document.getElementById("priceAlertTarget").value = alert.target;
+  document.getElementById("priceNotifyApp").checked = (alert.notifyBy.indexOf("In-app") !== -1);
+  document.getElementById("priceNotifySms").checked = (alert.notifyBy.indexOf("SMS") !== -1);
+  document.getElementById("priceNotifyEmail").checked = (alert.notifyBy.indexOf("Email") !== -1);
+  document.querySelector("#priceAlertForm input[type='submit']").value = "Update Alert";
+}
+
+function deletePriceAlert(index) {
+  priceAlerts = removeAt(priceAlerts, index);
+  showMessage("priceAlertMessage", "Price alert deleted.", "info");
+  resetPriceAlertForm();
+  refreshCustomerPage();
+}
+
+function resetPriceAlertForm() {
+  document.getElementById("priceAlertForm").reset();
+  editPriceAlertIndex = -1;
+  document.querySelector("#priceAlertForm input[type='submit']").value = "Save Alert";
+}
+
+
+// Connect this part's form and search box (addEventListener)
+document.getElementById("priceAlertForm").addEventListener("submit", function (event) {
+  event.preventDefault();
+  savePriceAlert();
+});
+
+
+/* =====================================================================
+   4. BACK-IN-STOCK ALERTS
+   ===================================================================== */
+
+// true when I already follow this product
+function findStockAlert(productId) {
+  for (let i = 0; i < stockAlerts.length; i++) {
+    if (stockAlerts[i].customerId === currentCustomerId && stockAlerts[i].productId === productId) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+function renderStockAlerts() {
+  // Left: products that are out of stock now
+  let rows = "";
+  for (const product of outOfStockProducts) {
+    let button = (findStockAlert(product.id) === -1)
+      ? "<button type='button' class='btn btn-small' onclick=\"followProduct('" + product.id + "')\">Notify Me</button>"
+      : "<button type='button' class='btn btn-small btn-secondary' onclick=\"unfollowProduct('" + product.id + "')\">Following</button>";
+    rows += "<tr>" +
+      "<td><strong>" + product.name + "</strong><br><span class='hint'>" + product.district + "</span></td>" +
+      "<td>Tk " + product.price + " / " + product.unit + "</td>" +
+      "<td><span class='badge red'>" + product.stock + "</span></td>" +
+      "<td>" + button + "</td>" +
+      "</tr>";
+  }
+  document.getElementById("outOfStockBody").innerHTML = rows;
+
+  // Right: my alerts with the current status
+  let alertRows = "";
+  let count = 0;
+  for (let i = 0; i < stockAlerts.length; i++) {
+    let alert = stockAlerts[i];
+    if (alert.customerId !== currentCustomerId) {
+      continue;
+    }
+    let product = findProduct(alert.productId);
+    let status;
+    let buttons = "";
+    if (product.stock > 0) {
+      status = "<span class='badge green'>Back in stock (" + product.stock + ")</span>";
+      buttons = "<button type='button' class='btn btn-small' onclick=\"addToCart('" + product.id + "')\">Add to Cart</button>";
+    } else {
+      status = "<span class='badge red'>Out of stock</span>";
+    }
+    buttons += "<button type='button' class='btn btn-small btn-danger' onclick='removeStockAlert(" + i + ")'>Remove</button>";
+
+    alertRows += "<tr>" +
+      "<td><strong>" + product.name + "</strong><br><span class='hint'>" + product.district + "</span></td>" +
+      "<td>" + status + "</td>" +
+      "<td>" + alert.date + "</td>" +
+      "<td>" + buttons + "</td>" +
+      "</tr>";
+    count++;
+  }
+  if (count === 0) {
+    alertRows = "<tr><td colspan='4' class='empty-row'>You are not following any product.</td></tr>";
+  }
+  document.getElementById("stockAlertBody").innerHTML = alertRows;
+  document.getElementById("stockAlertCount").innerHTML = count + " alert(s)";
+
+  let html = "";
+  for (const note of stockNotifications) {
+    html += "<div class='review'>" + note.text + "<br><span class='hint'>" + note.time + " · " + note.via + "</span></div>";
+  }
+  document.getElementById("stockAlertNotifications").innerHTML = (html === "") ? "<p class='hint'>No notifications yet.</p>" : html;
+}
+
+function followProduct(productId) {
+  stockAlerts.push({ id: nextId("SA", stockAlerts), customerId: currentCustomerId, productId: productId, date: todayString() });
+  showMessage("stockAlertMessage", "We will notify you when " + findProduct(productId).name + " is back in stock.", "success");
+  refreshCustomerPage();
+}
+
+function unfollowProduct(productId) {
+  removeStockAlert(findStockAlert(productId));
+}
+
+function removeStockAlert(index) {
+  let product = findProduct(stockAlerts[index].productId);
+  stockAlerts = removeAt(stockAlerts, index);
+  showMessage("stockAlertMessage", "Stopped following " + product.name + ".", "info");
+  refreshCustomerPage();
+}
+
+
+/* =====================================================================
+   5. ORDER TRACKING  (unique feature 2)
+   ===================================================================== */
+function fillTrackOrders() {
+  let select = document.getElementById("trackOrder");
+  let chosen = select.value;
+  select.innerHTML = "";
+
+  // Newest order first: loop the array backwards
+  for (let i = orders.length - 1; i >= 0; i--) {
+    if (orders[i].customerId === currentCustomerId) {
+      let option = document.createElement("option");
+      option.value = orders[i].id;
+      option.innerHTML = "#" + orders[i].id + " (" + orders[i].status + ")";
+      select.appendChild(option);
+    }
+  }
+  if (chosen !== "") {
+    select.value = chosen;
+  }
+}
+
+function renderTracking() {
+  let orderId = document.getElementById("trackOrder").value;
+  let index = findIndexById(orders, orderId);
+  if (index === -1) {
+    document.getElementById("trackInfo").innerHTML = "You have no orders yet.";
+    document.getElementById("trackSteps").innerHTML = "";
+    document.getElementById("trackItems").innerHTML = "";
+    return;
+  }
+  let order = orders[index];
+
+  // Every step up to the current one gets the "done" class
+  let reached = orderSteps.indexOf(order.status);
+  let steps = "";
+  for (let i = 0; i < orderSteps.length; i++) {
+    steps += "<div class='" + (i <= reached ? "track-step done" : "track-step") + "'>" + orderSteps[i] + "</div>";
+  }
+  document.getElementById("trackSteps").innerHTML = steps;
+
+  let rows = "";
+  let total = 0;
+  for (const item of order.items) {
+    rows += "<tr><td>" + item.name + "</td><td>" + item.qty + "</td><td>" + formatTaka(item.price * item.qty) + "</td></tr>";
+    total += item.price * item.qty;
+  }
+  document.getElementById("trackItems").innerHTML = rows;
+
+  let paidText = order.paid ? "(paid)" : "(to pay)";
+  let driver = findUser(order.deliveryId);
+  document.getElementById("trackInfo").innerHTML =
+    "<strong>Total:</strong> " + formatTaka(total) + " · " + order.payment + " " + paidText + "<br>" +
+    "<strong>Deliver to:</strong> " + order.address + "<br>" +
+    "<strong>Delivery person:</strong> " + driver.name + " (" + driver.phone + ")";
+}
+
+
+// Connect this part's form and search box (addEventListener)
+document.getElementById("trackOrder").addEventListener("change", renderTracking);

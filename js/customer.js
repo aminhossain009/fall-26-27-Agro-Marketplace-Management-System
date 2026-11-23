@@ -1,12 +1,4 @@
-/* =====================================================================
-   customer.js  -  Customer dashboard (customer.html)
-  -----------------------------------
-   CRUD + Search : My Delivery Addresses
-   Unique 1      : Cart and Checkout - stock check, total, place order
-   Unique 2      : Order Tracking - Placed > Packed > Picked > On the way > Delivered
-   Unique 3      : Review and Rating - only for products that were delivered
-   Extra alerts  : Price Drop Alerts and Back-in-Stock Alerts
-   ===================================================================== */
+
 
 /* #####################################################################
    Statistic tiles + Addresses (CRUD + Search) + Cart and Checkout
@@ -18,9 +10,9 @@ let editPriceAlertIndex = -1;
 const addressFields = ["addressRecipient", "addressPhone", "addressArea", "addressDetails"];
 
 
-/* =====================================================================
+/*
    STATISTIC TILES
-   ===================================================================== */
+    */
 function countMine(list) {
   let count = 0;
   for (const item of list) {
@@ -53,9 +45,9 @@ function updateCustomerStats() {
 }
 
 
-/* =====================================================================
+/* 
    1. MY DELIVERY ADDRESSES  (CRUD + SEARCH)
-   ===================================================================== */
+    */
 function renderAddresses() {
   let keyword = document.getElementById("addressSearch").value;
   let label = document.getElementById("addressLabelFilter").value;
@@ -192,9 +184,9 @@ document.getElementById("addressSearch").addEventListener("keyup", renderAddress
 document.getElementById("addressLabelFilter").addEventListener("change", renderAddresses);
 
 
-/* =====================================================================
+/* 
    2. CART AND CHECKOUT  (unique feature 1)
-   ===================================================================== */
+    */
 
 // The product list on the left with an "Add" button
 function renderShop() {
@@ -389,9 +381,9 @@ document.getElementById("checkoutForm").addEventListener("submit", function (eve
   placeOrder();
 });
 
-/* #####################################################################
+/* 
    Price Drop Alerts + Back-in-Stock Alerts
-   ##################################################################### */
+   */
 
 
 /* =====================================================================
